@@ -13,10 +13,20 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",
+    "echarts": "^4.1.0",
+    "echarts-gl": "^1.1.1",
     "express": "^4.15.3",
+    "iview": "^3.0.1",
+    "lodash": "^4.17.10",
+    "mysql2": "^1.6.1",
+    "net": "^1.0.2",
     "nuxt": "latest",
-    "source-map-support": "^0.4.15"
+    "sequelize": "^4.38.0",
+    "source-map-support": "^0.4.15",
+    "tls": "^0.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

@@ -13,15 +13,21 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  plugins: [
+    { src: '~plugins/iview.js', ssr: true }
+  ],
   /*
   ** Global CSS
   */
-  css: ['~/assets/css/main.css'],
+  css: [
+    { src: '~/assets/css/main.css' },
+    { src: 'iview/dist/styles/iview.css' }
+  ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios'],
+    vendor: ['axios', 'echarts-gl', 'iview', './plugins/iview.js'],
     /*
     ** Run ESLINT on save
     */

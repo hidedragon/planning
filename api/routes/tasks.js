@@ -4,7 +4,7 @@ const router = Router()
 
 let {getUserByAccount} = require('../store/service/userService')
 
-router.post('/getUserByAccount', async (req, res, next) => {
+router.post('/getTaskList', async (req, res, next) => {
   let {account} = req.body
   let user = await getUserByAccount({account: account})
   res.json(user)
