@@ -28,46 +28,9 @@
     },
     data () {
       return {
-        tabDatas: [
-          {
-            label: '任务流程',
-            name: 'taskFlow',
-            type: 'flow',
-            data: {
-              name: ''
+        taskInfo: {
 
-            }
-          },
-          {
-            label: '任务需求',
-            name: 'taskRequirement',
-            type: 'requirement',
-            data: {
-              v1: 'aaa11'
-            }
-          },
-          {
-            label: '设计成果',
-            name: 'planningResult',
-            data: {
-              v1: 'aaa11'
-            }
-          },
-          {
-            label: '日常沟通',
-            name: 'taskChat',
-            data: {
-              v1: 'aaa11'
-            }
-          },
-          {
-            label: '流转记录',
-            name: 'flowHistory',
-            data: {
-              v1: 'bbb'
-            }
-          }
-        ],
+        },
         showTaskModal: false,
         tableDatas: tableDatas,
         tableColumns: columns

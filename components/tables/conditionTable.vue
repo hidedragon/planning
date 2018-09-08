@@ -22,7 +22,6 @@
           </Row>
         </Card>
       </Col>
-
     </Row>
   </div>
 </template>

@@ -25,6 +25,10 @@ let planningTask = {
     type: Sequelize.TEXT('long'),
     title: "任务需求"
   },
+  requirementsShowConf: {
+    type: Sequelize.TEXT('long'),
+    title: "任务需求展示配置"
+  },
   resultFiles: {
     type: Sequelize.TEXT,
     title: "结果文件"

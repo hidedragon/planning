@@ -7,9 +7,8 @@ let getUserByAccount = async (params) => {
   return data
 }
 
-
 let test = async () => {
-  let testRes = await getUserByAccount({account: 'adminaaa'})
+  let testRes = await getUserByAccount({account: 'admin'})
   console.log(testRes)
 }
 

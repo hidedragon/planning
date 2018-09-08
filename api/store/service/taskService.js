@@ -1,19 +1,31 @@
-let {userModel} = require('../model/user')
+const uuid = require('uuid/v1')
+let {planningTaskModel} = require('../model/planningTask')
 
-let getUserByAccount = async (params) => {
-  let {account} = params
-  let res = await userModel.findOne({ where: {account: account} })
-  let data = res?res.dataValues:null
-  return data
+let getPlanningTaskList = async (params) => {
+  let {type} = params
+  let res = await planningTaskModel.findAll({ where: {type: type} })
+  let datas = res?res.dataValues:null
+  return datas
+}
+
+let createPlanningTask = async (params) => {
+  if(!params) return null
+  let pt = params;
+  if(pt && !pt.id){
+    pt.id = uuid()
+  }
+  let res = await planningTaskModel.create(pt)
+  return res
 }
 
 let test = async () => {
-  let testRes = await getUserByAccount({account: 'admin'})
+  let testRes = await getPlanningTaskList({type: 'a'})
   console.log(testRes)
 }
 
 // test()
 
 module.exports = {
-  getUserByAccount
+  getPlanningTaskList,
+  createPlanningTask
 }

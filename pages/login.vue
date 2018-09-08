@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  // import axios from '~/plugins/axios'
+  import axios from '~/plugins/axios'
 
   export default {
     head () {
@@ -31,10 +31,16 @@
       }
     },
     methods: {
-      login () {
-        this.$router.push({
-          path: 'front'
-        })
+      async login () {
+        let {data} = await axios.post('/api/users/getUserByAccount', {account: this.account})
+        let user = data
+        if (user && user.password === this.password) {
+          this.$router.push({
+            path: 'front'
+          })
+        } else {
+          this.$Message.error('用户名或密码错误')
+        }
       }
     }
   }

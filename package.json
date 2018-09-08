@@ -26,7 +26,8 @@
     "nuxt": "latest",
     "sequelize": "^4.38.0",
     "source-map-support": "^0.4.15",
-    "tls": "^0.0.1"
+    "tls": "^0.0.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
