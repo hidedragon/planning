@@ -14,47 +14,78 @@
           <Step title="生成报告"></Step>
         </Steps>
       </div>
-      <div style="width: calc(100% - 180px);display: inline-block;top: 5px;">
-        <div style="margin-top: 10px;">
-          <div style="width: 530px;display: inline-block;float: left;margin-bottom: 10px;">
+      <div style="width: calc(100% - 180px);display: inline-block;height: auto;vertical-align: top;">
+        <div style="margin-top: 0px;">
+          <div style="width: 400px;display: inline-block;float: left;margin-bottom: 10px;">
             <span style="color: red;display:inline-block;width: 60px;text-align: right;">*名称：</span>
-            <Input style="width:400px;" v-model="taskInfo.name"/>
+            <Input style="width:300px;" v-model="taskInfo.name"/>
           </div>
-          <div style="width: calc(100% - 530px);display: inline-block;float: left;margin-bottom: 10px;">
+          <div style="width: calc(100% - 400px);display: inline-block;float: left;margin-bottom: 10px;">
             <span style="display: inline-block;width: 120px;text-align: right;">类型：</span>
             <Select v-model="taskInfo.type" style="width:200px">
               <Option v-for="item in taskTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </div>
-          <div style="padding-left: 20px;padding-right: 20px;">
-            <Upload
-                    multiple
-                    type="drag"
-                    action="//jsonplaceholder.typicode.com/posts/">
-              <div style="padding: 20px 0">
-                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                <p>基础资料上传(点击选择文件或拖拽至此处)</p>
-              </div>
-            </Upload>
-          </div>
-          <div style="padding-left: 5px;">
+          <div style="padding-left: 5px;margin-bottom: 10px;">
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="primary">资料智能解析</Button>
+              <Button type="primary">需求智能解析</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
               <Button type="success">智能设计</Button>
             </div>
-
+            <div style="display: inline-block;margin-left: 15px;">
+              <Button>
+                <Icon type="md-person" size="14"/>联系客服
+              </Button>
+            </div>
           </div>
-          <div style="padding-left:60px;">
+          <div  style="padding-left: 20px;padding-right: 20px;">
+            <div style="width: 50%;">
+              <Upload
+                      type="drag"
+                      action="/api/tasks/upload">
+                <div style="padding: 20px 0">
+                  <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                  <p>基础资料上传(点击选择文件或拖拽至此处)</p>
+                </div>
+              </Upload>
+            </div>
+            <div style="width: 50%;">
 
+            </div>
+          </div>
+          <div style="padding-left:20px;height: auto;">
+            <Collapse value="1">
+              <Panel name="1">
+                需求智能解析结果
+                <div slot="content">
+                  <Tabs size="small">
+                    <TabPane label="文件一">标签一的内容</TabPane>
+                    <TabPane label="文件二">标签二的内容</TabPane>
+                    <TabPane label="文件三">标签三的内容</TabPane>
+                  </Tabs>
+                </div>
+              </Panel>
+            </Collapse>
+            <Collapse value="1" style="margin-top: 5px;">
+              <Panel name="1">
+                智能设计结果
+                <div slot="content">
+                  <Tabs size="small">
+                    <TabPane label="文件一">标签一的内容</TabPane>
+                    <TabPane label="文件二">标签二的内容</TabPane>
+                    <TabPane label="文件三">标签三的内容</TabPane>
+                  </Tabs>
+                </div>
+              </Panel>
+            </Collapse>
           </div>
         </div>
       </div>
       <div slot="footer">
         <Button style="" @click="closed">关闭</Button>
         <Button style="" type="primary">保存</Button>
-        <Button style="" type="primary">提交</Button>
+        <Button style="" type="primary">保存并提交</Button>
       </div>
     </Modal>
   </div>
@@ -87,15 +118,11 @@
     watch: {
       isShow: function (newVal) {
         this.isShowV = newVal
-      },
-      tabDatas: function (newVal) {
-        this.tabDatas = newVal
       }
     },
     data () {
       return {
         isShowV: false,
-        tabDatasV: false,
         taskTypes: [
           {
             value: '1',

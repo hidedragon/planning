@@ -1,8 +1,7 @@
 <template>
   <div class="login-main">
     <div class="login-inputs">
-      <h3 style="font-size: 90px;letter-spacing: 25px;width: 100%;text-align: center;margin-bottom: 10px;margin-top: 20px;">SOHI</h3>
-      <span >城乡规划智能决策支持系统</span>
+      <img src="../assets/img/logo_1.png" style="margin-top: 3%;"/>
       <div class="account-input">
         <input v-model="account"/>
       </div>
@@ -53,6 +52,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
+    overflow-y:hidden;
   }
   .login-inputs {
     color: white;

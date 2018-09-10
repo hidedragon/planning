@@ -2,8 +2,7 @@
   <div class="main">
     <div class="top">
       <div class="top-logo">
-        <h2 style="font-size: 30px;display: inline-block;line-height: 60px;margin-left: 20px;">SOHI</h2>
-        <span style="font-size: 20px;font-weight: bold;">城乡规划智能决策支持系统</span>
+        <img src="../assets/img/logo_2.png" width="88%" style="margin-top: 8px;margin-left: 8px;"/>
       </div>
       <div class="top-user">
         <Icon type="ios-person-outline"  size="32" color="white"/>
@@ -80,6 +79,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    overflow: hidden;
   }
   .top{
     width: 100%;

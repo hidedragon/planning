@@ -10,7 +10,7 @@
             :isShow="showTaskModal"
             title="任务详情"
             @closed="closeModal"
-            :tabDatas="tabDatas"
+            :taskInfo="taskInfo"
     >
     </task-modal>
   </div>
@@ -32,8 +32,8 @@
 
         },
         showTaskModal: false,
-        tableDatas: tableDatas,
-        tableColumns: columns
+        tableColumns: columns,
+        tableDatas: tableDatas
       }
     },
     computed: {
