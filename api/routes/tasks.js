@@ -5,10 +5,7 @@ const fs = require('fs')
 const multer = require('multer')
 path.join(__dirname, './resources/uploads')
 
-let upload = multer({dest: path.join(__dirname, './resources/uploads')});
-
-
-// const upload = require('multer')({dest: path.join(__dirname,'resources/files/upload/')})
+let upload = multer({dest: path.join(__dirname, './resources/uploads')})
 
 const router = Router()
 

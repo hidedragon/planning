@@ -19,12 +19,12 @@ app.use('/users', users)
 app.use('/tasks', tasks)
 
 var allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');//自定义中间件，设置跨域需要的响应头。
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-};
-app.use(allowCrossDomain);
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  res.header('Access-Control-Allow-Headers', 'Content-Type')
+  next()
+}
+app.use(allowCrossDomain)
 
 // Export the server middleware
 module.exports = {
