@@ -60,8 +60,10 @@
                 需求智能解析结果
                 <div slot="content">
                   <Tabs size="small">
-                    <TabPane label="文件一">标签一的内容</TabPane>
-                    <TabPane label="文件二">标签二的内容</TabPane>
+                    <TabPane label="文件一">
+                      <input-analysis-page></input-analysis-page>
+                    </TabPane>
+                    <TabPane label="文件二">文件二解析内容</TabPane>
                     <TabPane label="文件三">标签三的内容</TabPane>
                   </Tabs>
                 </div>
@@ -72,7 +74,9 @@
                 智能设计结果
                 <div slot="content">
                   <Tabs size="small">
-                    <TabPane label="文件一">标签一的内容</TabPane>
+                    <TabPane label="文件一">
+                      <output-analysis-page></output-analysis-page>
+                    </TabPane>
                     <TabPane label="文件二">标签二的内容</TabPane>
                     <TabPane label="文件三">标签三的内容</TabPane>
                   </Tabs>
@@ -91,8 +95,15 @@
   </div>
 </template>
 <script>
+  import inputAnalysisPage from '~/components/analysis/inputAnalysisPage'
+  import outputAnalysisPage from '~/components/analysis/outputAnalysisPage'
+
   export default {
     name: 'task-modal',
+    components: {
+      inputAnalysisPage,
+      outputAnalysisPage
+    },
     props: {
       title: {
         type: String,

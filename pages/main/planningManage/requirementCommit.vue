@@ -17,7 +17,7 @@
 </template>
 <script>
   import conditionTable from '~/components/tables/conditionTable'
-  import taskModal from '~/components/task'
+  import taskModal from './components/task'
   import {columns, tableDatas} from './testDatas'
 
   export default {
