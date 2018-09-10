@@ -1,4 +1,5 @@
 const {mysqlDb, Sequelize} = require('../store');
+const uuid = require('uuid')
 
 /**
  * 规划任务信息
@@ -35,7 +36,18 @@ let user = {
 let userModel = mysqlDb.define('t_user', user, {
   freezeTableName: true // Model 对应的表名将与model名相同
 })
-userModel.sync({force: false});
+;(async () => {
+  await userModel.sync({force: false})
+  const ary = await userModel.findAll()
+  if (!ary.length) {
+    userModel.create({
+      id: uuid(),
+      name: 'admin',
+      account: 'admin',
+      password: 'admin'
+    })
+  }
+})()
 
 module.exports = {
   userModel,
