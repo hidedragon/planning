@@ -50,7 +50,7 @@ import { appRouter } from './router'
 export default {
   head () {
     return {
-      title: 'SOHI-PSS'
+      title: '城乡规划智能决策支持系统'
     }
   },
   data () {

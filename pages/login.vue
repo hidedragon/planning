@@ -31,13 +31,14 @@
     },
     methods: {
       async login () {
-        let {data} = await axios.post('/api/users/getUserByAccount', {account: this.account})
-        let user = data
-        if (user && user.password === this.password) {
+        let {data} = await axios.post('/api/users/login', {account: this.account, password: this.password})
+        console.log(data)
+        let res = data
+        if(res.data && res.redirect){
           this.$router.push({
-            path: 'front'
+            path: res.redirect
           })
-        } else {
+        }else if(res.error){
           this.$Message.error('用户名或密码错误')
         }
       }

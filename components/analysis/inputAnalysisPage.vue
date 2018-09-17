@@ -1,5 +1,5 @@
 <template>
-  <div id="body" style="background-color:#666;width:100%;position: absolute;text-align: center;display: flex;justify-content: center;color: #ffffff;">
+  <div id="body" style="background-color:#666;width:100%;text-align: center;display: flex;justify-content: center;color: #ffffff;">
     <div id="content" style="background-color:#333;width: 740px;padding: 20px 20px">
       <div id="chart1" style="width:700px;height: 400px;"></div>
       <div id="chart2" style="width:700px;height: 600px;"></div>

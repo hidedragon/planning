@@ -18,7 +18,7 @@ let planningTask = {
     title: "任务类型"
   },
   uploadFiles: {
-    type: Sequelize.TEXT,
+    type: Sequelize.JSON,
     title: "上传文件"
   },
   reuirements: {
@@ -30,7 +30,7 @@ let planningTask = {
     title: "任务需求展示配置"
   },
   resultFiles: {
-    type: Sequelize.TEXT,
+    type: Sequelize.JSON,
     title: "结果文件"
   },
   resultAnalyse: {
@@ -68,10 +68,9 @@ let planningTask = {
   flowState: {
     type: Sequelize.STRING,
     title: "流程状态",
-    desc: "draft 草稿"
+    desc: "0:新建 analysisInput:解析输入 inputConfirm:需求确认"
   }
 }
-
 
 let planningTaskModel = mysqlDb.define('t_planning_task', planningTask, {
   freezeTableName: true // Model 对应的表名将与model名相同

@@ -18,6 +18,19 @@ let createPlanningTask = async (params) => {
   return res
 }
 
+let updatePlanningTask = async (params) => {
+  if(!params) return null
+  let pt = params;
+  if(pt && !pt.id){
+    pt.id = uuid()
+    await planningTaskModel.create(pt)
+  }else{
+    delete pt.id
+    await planningTaskModel.update(pt, {where: {id: pt.id}})
+  }
+  return true
+}
+
 let test = async () => {
   let testRes = await getPlanningTaskList({type: 'a'})
   console.log(testRes)
@@ -27,5 +40,6 @@ let test = async () => {
 
 module.exports = {
   getPlanningTaskList,
-  createPlanningTask
+  createPlanningTask,
+  updatePlanningTask
 }
