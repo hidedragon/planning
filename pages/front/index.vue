@@ -6,7 +6,7 @@
       </i-col>
     </Row>
     <div style="width: 100%;display: block;">
-      <MapChart></MapChart>
+      <MapChart @mapChange="mapChange"></MapChart>
     </div>
   </div>
 </template>
@@ -34,6 +34,9 @@
         this.$router.push({
           name: 'main'
         })
+      },
+      mapChange (ary) {
+        console.log(ary)
       }
     },
     mounted () {

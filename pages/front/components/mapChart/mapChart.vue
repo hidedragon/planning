@@ -48,7 +48,7 @@
   export default {
     name: 'Graph1',
     mounted () {
-      echarts.extendsMap = function (id, opt) {
+      echarts.extendsMap = function (id, opt){
         var chart = this.init(document.getElementById(id))
         const datas = opt.data
 
@@ -114,7 +114,7 @@
         var style = {
           font: '18px "Microsoft YaHei", sans-serif',
           textColor: '#eee',
-          lineColor: 'rgba(147, 235, 248, .8)'
+          lineColor: '#57a3f3'
         }
 
         var handleEvents = {
@@ -163,7 +163,7 @@
             // console.log({option: o})
             i.setOption(o)
             this.zoomAnimation()
-            opt.callback(n, o, i)
+            opt.callback(name)
           },
 
           /**
@@ -244,7 +244,16 @@
         }
 
         var option = {
-          backgroundColor: opt.bgColor,
+          title: {
+            text: '社会活动热点图',
+            subtext: 'ThinkGIS',
+            sublink: 'http://www.dashuntech.com:8808',
+            left: 'center',
+            top: 'top',
+            textStyle: {
+              color: '#fff'
+            }
+          },
           tooltip: {
           },
           graphic: [{
@@ -395,35 +404,37 @@
       const geoJson = require('echarts/map/json/china.json')
       echarts.registerMap('中国', geoJson)
       let url = '/map/datas.json'
-      let datas = require('../../../../static/map/datas.json')
-      datas = datas.map(function (serieData) {
-        var px = serieData[0] / 1000
-        var py = serieData[1] / 1000
-        var res = [[px, py]]
+      // let datas = require('../../../../static/map/datas.json')
+      $.get(url, datas => {
+        datas = datas.map(function (serieData) {
+          var px = serieData[0] / 1000
+          var py = serieData[1] / 1000
+          var res = [[px, py]]
 
-        for (var i = 2; i < serieData.length; i += 2) {
-          var dx = serieData[i] / 1000
-          var dy = serieData[i + 1] / 1000
-          var x = px + dx
-          var y = py + dy
-          res.push([x.toFixed(2), y.toFixed(2), 1])
+          for (var i = 2; i < serieData.length; i += 2) {
+            var dx = serieData[i] / 1000
+            var dy = serieData[i + 1] / 1000
+            var x = px + dx
+            var y = py + dy
+            res.push([x.toFixed(2), y.toFixed(2), 1])
 
-          px = x
-          py = y
-        }
-        return res
-      })
-      // console.log(datas)
-      echarts.extendsMap('chart-panel', {
-        bgColor: '#000', // 画布背景色
-        mapName: '中国', // 地图名
-        text: '火电业务',
-        goDown: true, // 是否下钻
-        callback: function (name, option, instance) {
-          console.log(name)
-        },
-        // 数据展示
-        data: datas
+            px = x
+            py = y
+          }
+          return res
+        })
+        // console.log(datas)
+        echarts.extendsMap('chart-panel', {
+          bgColor: '#000', // 画布背景色
+          mapName: '中国', // 地图名
+          text: '火电业务',
+          goDown: true, // 是否下钻
+          callback: (ary) => {
+            this.$emit('mapChange', ary)
+          },
+          // 数据展示
+          data: datas
+        })
       })
     }
   }
