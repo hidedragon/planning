@@ -3,21 +3,16 @@
 </template>
 
 <script>
-  if (process.BROWSER_BUILD) {
-    require('echarts-gl')
-  }
   require('echarts/map/js/china')
   const echarts = require('echarts')
-  const chinaJson = require('./china.json')
   let chinaMap = {}
 
   export default {
     name: 'mapChart',
     mounted () {
       chinaMap = echarts.init(document.getElementById('map-chart'))
-      echarts.registerMap('chinaMap', chinaJson)
       let datas = require('./datas.json')
-      datas = datas.map(function (serieData, idx) {
+      datas = datas.map(function (serieData) {
         var px = serieData[0] / 1000
         var py = serieData[1] / 1000
         var res = [[px, py]]
@@ -101,7 +96,7 @@
           itemStyle: {
             shadowBlur: 2,
             shadowColor: 'rgba(255, 255, 255, 0.8)',
-            color: 'rgba(255, 255, 255, 0.8)'
+            color: 'red'
           },
           data: datas[2]
         }]
