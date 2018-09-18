@@ -8,27 +8,15 @@ export const appRouter = [
     children: [
       {
         path: '/main/planningManage/requirementCommit',
-        title: '规划任务提交',
+        title: '规划任务管理',
         name: 'planningManage-requirementCommit',
         icon: 'ios-add-circle-outline'
-      },
-      {
-        path: '/main/planningManage/planningDesign',
-        title: '规划任务设计',
-        name: 'planningManage-planningDesign',
-        icon: 'logo-playstation'
       },
       {
         path: '/main/planningManage/planningApprove',
         title: '规划任务审批',
         name: 'planningManage-planningApprove',
         icon: 'ios-people-outline'
-      },
-      {
-        path: '/main/planningManage/planningArchived',
-        title: '已归档任务',
-        name: 'planningManage-planningArchived',
-        icon: 'ios-paper-outline'
       }
     ]
   },

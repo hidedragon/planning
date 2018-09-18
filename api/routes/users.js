@@ -21,4 +21,8 @@ router.post('/login', async (req, res ,next) => {
   }
 })
 
+router.post('/getCurrentUser', async (req, res, next) => {
+  res.json(req.session.user)
+})
+
 module.exports = router

@@ -18,7 +18,7 @@
             </i-button>
           </Row>
           <Row style="margin-top: 10px;">
-            <Table :columns="tableColumns" :data="datas"></Table>
+            <Table :columns="tableColumns" :data="datas" border></Table>
           </Row>
         </Card>
       </Col>
@@ -87,6 +87,15 @@
     },
     watch: {
       tableDatas: function (newVal) {
+        if(newVal && newVal.length>0){
+          for(let nv of newVal){
+            if(nv){
+              for(let k in nv){
+                if(!nv[k]) nv[k] = '--'
+              }
+            }
+          }
+        }
         this.datas = newVal
       }
     }

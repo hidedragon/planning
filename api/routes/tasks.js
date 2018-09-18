@@ -7,10 +7,11 @@ const upload = require('multer')({dest: path.join(__dirname, '../resources/uploa
 
 const router = Router()
 
-let {createPlanningTask, updatePlanningTask} = require('../store/service/taskService')
+let {createPlanningTask, updatePlanningTask, getPlanningTaskList} = require('../store/service/taskService')
 
 router.post('/getTaskList', async (req, res, next) => {
-
+  let result = await getPlanningTaskList()
+  return res.send(result)
 })
 
 router.post('/createPlanningTask', async (req, res, next) => {
@@ -27,7 +28,7 @@ router.post('/createPlanningTask', async (req, res, next) => {
   }
 })
 
-router.post('savePlanningTask', async (req, res, next) => {
+router.post('/savePlanningTask', async (req, res, next) => {
   try{
     let {planningTask} = req.body
     let user = req.session.user

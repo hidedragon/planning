@@ -2,9 +2,11 @@
   <div>
     <Modal :title="title" v-model="isShowV" :mask-closable="false" width="90%" height="98%">
       <h4 slot="header">{{title}}</h4>
-      <a class="ivu-modal-close" @click="closed"><i class="ivu-icon ivu-icon-ios-close-empty"></i></a>
+      <div slot="close">
+        <a @click="closed"><Icon type="ios-close" /></a>
+      </div>
       <div style="width: 150px;display: inline-block;">
-        <Steps :current="flowState" size="small" direction="vertical">
+        <Steps :current="taskInfoS.flowState" size="small" direction="vertical">
           <Step title="新建"></Step>
           <Step title="任务需求提交"></Step>
           <Step title="需求智能解析"></Step>
@@ -29,13 +31,13 @@
           </div>
           <div style="padding-left: 5px;margin-bottom: 10px;">
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="primary">需求智能解析</Button>
+              <Button type="primary" @click="analysisInput" :disabled="enableAnalysisInputBtn">需求智能解析</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="success">智能设计</Button>
+              <Button type="success" :disabled="enableAnalysisOutputBtn">智能设计</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
-              <Button>
+              <Button @click="openChatWindow">
                 <Icon type="md-person" size="14"/>联系客服
               </Button>
             </div>
@@ -65,7 +67,7 @@
             </div>
           </div>
           <div style="padding-left:20px;height: auto;">
-            <Collapse>
+            <Collapse :value="expandInputAnalysisRes">
               <Panel name="1">
                 需求智能解析结果
                 <div slot="content">
@@ -98,8 +100,15 @@
       </div>
       <div slot="footer">
         <Button style="" @click="closed">关闭</Button>
-        <Button style="" type="primary" @click="saveTaskInfo">保存</Button>
-        <Button style="" type="primary">保存并提交</Button>
+        <template v-if="showBtn('save')">
+          <Button style="" type="primary" @click="saveTaskInfo">保存</Button>
+        </template>
+        <template v-else-if="showBtn('saveAndCommit')">
+          <Button style="" type="primary" @click="saveTaskInfo">保存并提交</Button>
+        </template>
+        <template v-else-if="showBtn('confirmInput')">
+          <Button style="" type="primary" @click="saveTaskInfo">需求确认</Button>
+        </template>
       </div>
     </Modal>
   </div>
@@ -140,14 +149,33 @@
     watch: {
       isShow: function (newVal) {
         this.isShowV = newVal
+      },
+      taskInfo: function (newVal) {
+        this.taskInfoS = newVal
+        this.taskInfoS.flowState = this.taskInfoS.flowState || 0
+        if(this.taskInfoS.flowState === '3'){
+          this.showInputAnalysisRes = true
+          this.expandInputAnalysisRes = '1'
+        }
+        this.taskInfoS.flowState = parseInt(this.taskInfoS.flowState)
+        if(this.taskInfoS.uploadFiles){
+          for(let file of this.taskInfoS.uploadFiles){
+            this.uploadFileList.push(file)
+          }
+        }
       }
     },
     data () {
       return {
+        currentUser: {},
         isShowV: false,
         taskInfoS: {},
         showInputAnalysisRes: false,
         showOutputAnalysisRes: false,
+        expandInputAnalysisRes: '',
+        expandOutputAnalysisRes: '',
+        enableAnalysisInputBtn: true,
+        enableAnalysisOutputBtn: true,
         uploadFileList: [],
         taskTypes: [
           {
@@ -173,6 +201,8 @@
         this.taskInfoS.type = '2'
         this.uploadFileList.push(file)
         this.taskInfoS.uploadFiles = this.uploadFileList
+        this.taskInfoS.flowState = 1
+        this.enableAnalysisInputBtn = false
       },
       saveTaskInfo: async function () {
         let planningTask = {
@@ -180,7 +210,7 @@
           name: this.taskInfoS.name,
           type: this.taskInfoS.type,
           uploadFiles: this.taskInfoS.uploadFiles,
-          flowState: this.taskInfoS.flowState
+          flowState: this.taskInfoS.flowState || 0
         }
         console.log(planningTask)
         let res = await axios.post('/api/tasks/savePlanningTask', {planningTask: planningTask})
@@ -189,12 +219,50 @@
       },
       closed: function () {
         this.$emit('closed')
+      },
+      analysisInput: function () {
+        this.taskInfoS.flowState = 2
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'demo-spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '智能解析中')
+            ])
+          }
+        });
+        setTimeout(() => {
+          this.$Spin.hide()
+          this.showInputAnalysisRes = true
+          this.expandInputAnalysisRes = '1'
+          this.taskInfoS.flowState = 3
+        }, 3000);
+      },
+      showBtn (btnTag) {
+        let user = this.$store.state.user
+        if(btnTag === 'save' && (this.taskInfoS.flowState===0 || !this.taskInfoS.flowState)){
+          return true
+        }
+        if(btnTag === 'saveAndCommit' && (this.taskInfoS.flowState===1 || this.taskInfoS.flowState===3) && user.role==='customer'){
+          return true
+        }
+        //需求确认,设计者确认
+        if(btnTag === 'confirmInput' && this.taskInfoS.flowState===3 && user && user.role==='designer'){
+          return true
+        }
+        return false
+      },
+      openChatWindow () {
+        window.open('http://wpa.qq.com/msgrd?v=3&uin=595676978&site=qq&menu=yes')
       }
     },
-    computed: {
-      flowState () {
-        return parseInt(this.taskInfoS.flowState || '0')
-      }
+    mounted () {
+      this.currentUser = this.$store.state.user
     }
   }
 </script>

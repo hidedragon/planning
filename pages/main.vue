@@ -34,17 +34,17 @@
         <nuxt-child />
       </div>
     </div>
-      <div style="position:fixed;bottom:15%;right:0px;">
-          <div style="text-align: center;">
-              <!--595676978,1354903928-->
-              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1354903928&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1354903928:53" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>
-          </div>
-      </div>
+    <!--<div style="position:fixed;bottom:15%;right:0px;">-->
+        <!--<div style="text-align: center;">-->
+            <!--&lt;!&ndash;595676978,1354903928&ndash;&gt;-->
+            <!--<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=595676978&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1354903928:53" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>-->
+        <!--</div>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script>
-// import axios from '~/plugins/axios'
+import axios from '~/plugins/axios'
 import { appRouter } from './router'
 
 export default {
@@ -59,6 +59,7 @@ export default {
     }
   },
   mounted () {
+    this.setCurrentUser()
     this.$router.push({
       path: '/main/planningManage/requirementCommit'
     })
@@ -74,6 +75,10 @@ export default {
       this.$router.push({
         path: '/login'
       })
+    },
+    async setCurrentUser () {
+      let {data} = await axios.post('/api/users/getCurrentUser')
+      this.$store.commit('setCurrentUser', data)
     }
   }
 }
