@@ -15,6 +15,7 @@
           <Step title="设计结果提交"></Step>
           <Step title="专家审批"></Step>
           <Step title="生成报告"></Step>
+          <Step title="完成"></Step>
         </Steps>
       </div>
       <div style="width: calc(100% - 180px);display: inline-block;height: 600px;vertical-align: top;overflow: auto;">
@@ -107,7 +108,7 @@
                 </Tabs>
               </TabPane>
               <TabPane name="c" label="设计报告" icon="ios-print">
-                <div>
+                <div  v-show="showGenerateReport">
                   <generate-report-page></generate-report-page>
                 </div>
               </TabPane>
@@ -202,6 +203,9 @@
         if(this.taskInfoS.flowState > 4){
           this.showOutputAnalysisRes = true
         }
+        if(this.taskInfoS.flowState === 8){
+          this.showGenerateReport = true
+        }
         if(this.taskInfoS.uploadFiles){
           for(let file of this.taskInfoS.uploadFiles){
             this.uploadFileList.push(file)
@@ -225,6 +229,7 @@
         designerApprove: '',
         showInputAnalysisRes: false,
         showOutputAnalysisRes: false,
+        showGenerateReport: false,
         disableAnalysisInputBtn: true,
         disableAnalysisOutputBtn: true,
         disableGenerateReportBtn: true,
@@ -331,6 +336,7 @@
           (this.taskInfoS.flowState===1 || this.taskInfoS.flowState===3
             || this.taskInfoS.flowState===5
             || this.taskInfoS.flowState===7
+            || this.taskInfoS.flowState===8
           )
           && user.role==='customer'){
           return true
@@ -377,6 +383,7 @@
         setTimeout(() => {
           this.$Spin.hide()
           this.taskInfoS.flowState = 5
+          this.showOutputAnalysisRes = true
           this.showResTab = 'b'
         }, 3000);
       },
@@ -397,8 +404,9 @@
         });
         setTimeout(() => {
           this.$Spin.hide()
-          this.showOutputAnalysisRes = true
+          this.taskInfoS.flowState = 8
           this.showResTab = 'c'
+          this.showGenerateReport = true
         }, 3000);
       }
     },

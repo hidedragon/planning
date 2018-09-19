@@ -21,7 +21,7 @@
   import '~/pages/util'
   import taskModal from './components/task'
   let taskTypes = ['', '防洪排涝规划', '产业发展研究', '交通可达性论证']
-  let flowStates = ['新建', '任务需求提交', '需求智能解析', '需求确认', '智能设计', '设计结果提交', '专家审批', '生成报告']
+  let flowStates = ['新建', '任务需求提交', '需求智能解析', '需求确认', '智能设计', '设计结果提交', '专家审批', '生成报告', '完成']
 
   export default {
     name: 'requirement-commit',
