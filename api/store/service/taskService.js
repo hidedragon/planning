@@ -27,8 +27,9 @@ let updatePlanningTask = async (params) => {
     pt.id = uuid()
     await planningTaskModel.create(pt)
   }else{
+    let id = pt.id
     delete pt.id
-    await planningTaskModel.update(pt, {where: {id: pt.id}})
+    await planningTaskModel.update(pt, {where: {id: id}})
   }
   return true
 }

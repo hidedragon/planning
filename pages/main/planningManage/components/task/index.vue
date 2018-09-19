@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal :title="title" v-model="isShowV" :mask-closable="false" width="90%" height="98%">
+    <Modal :title="title" v-model="isShowV" :mask-closable="false" width="90%" height="98%" :styles="{top: '20px'}">
       <h4 slot="header">{{title}}</h4>
       <div slot="close">
         <a @click="closed"><Icon type="ios-close" /></a>
@@ -12,7 +12,7 @@
           <Step title="需求智能解析"></Step>
           <Step title="需求确认"></Step>
           <Step title="智能设计"></Step>
-          <Step title="设计评审"></Step>
+          <Step title="设计结果提交"></Step>
           <Step title="专家审批"></Step>
           <Step title="生成报告"></Step>
         </Steps>
@@ -31,10 +31,13 @@
           </div>
           <div style="padding-left: 5px;margin-bottom: 10px;">
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="primary" @click="analysisInput" :disabled="enableAnalysisInputBtn">需求智能解析</Button>
+              <Button type="primary" @click="analysisInput" :disabled="disableAnalysisInputBtn">需求智能解析</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="success" :disabled="enableAnalysisOutputBtn">智能设计</Button>
+              <Button type="success" @click="analysisOutput" :disabled="disableAnalysisOutputBtn">智能设计</Button>
+            </div>
+            <div style="display: inline-block;margin-left: 15px;">
+              <Button type="info" @click="generateReport" :disabled="disableGenerateReportBtn">生成报告</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
               <Button @click="openChatWindow">
@@ -42,7 +45,7 @@
               </Button>
             </div>
           </div>
-          <div  style="padding-left: 20px;padding-right: 20px;">
+          <div v-if="taskInfoS.flowState<4 || !taskInfoS.flowState" style="padding-left: 20px;padding-right: 20px;">
             <div style="width: 50%;display: inline-block;">
               <Upload
                       type="drag"
@@ -66,35 +69,58 @@
               </div>
             </div>
           </div>
+          <div v-else-if="taskInfoS.flowState===6" style="padding-left: 20px;padding-right: 20px;">
+            <Card style="width:100%">
+              <span style="display:inline-block;width: 120px;text-align: right;">专家评审意见：</span>
+              <Input v-model="approverContent" style="width: calc(100% - 140px);" type="textarea"/>
+              <br/><br/>
+              <RadioGroup v-model="approverIsAgree" style="margin-left: 10px;">
+                <Radio label="pass" size="large">
+                  <Icon type="md-checkmark" color="green"></Icon>
+                  <span>同意</span>
+                </Radio>
+                <Radio label="sendBack" size="large" style="margin-left: 20px;">
+                  <Icon type="md-close" color="red"></Icon>
+                  <span>退回</span>
+                </Radio>
+              </RadioGroup>
+            </Card>
+          </div>
           <div style="padding-left:20px;height: auto;">
-            <Collapse :value="expandInputAnalysisRes">
-              <Panel name="1">
-                需求智能解析结果
-                <div slot="content">
-                  <Tabs size="small" v-show="showInputAnalysisRes">
-                    <TabPane label="黑龙江双城经济开发区产业发展研究">
-                      <div style="">
-                        <input-analysis-page></input-analysis-page>
-                      </div>
-                    </TabPane>
-                  </Tabs>
+            <Tabs :value="showResTab">
+              <TabPane name="a" label="需求智能解析结果" icon="ios-stats">
+                <Tabs size="small" v-show="showInputAnalysisRes">
+                  <TabPane label="黑龙江双城经济开发区产业发展研究">
+                    <div style="">
+                      <input-analysis-page></input-analysis-page>
+                    </div>
+                  </TabPane>
+                </Tabs>
+              </TabPane>
+              <TabPane name="b" label="智能设计结果" icon="ios-pulse">
+                <Tabs size="small" v-show="showOutputAnalysisRes">
+                  <TabPane label="黑龙江双城经济开发区产业发展研究">
+                    <div>
+                      <output-analysis-page></output-analysis-page>
+                    </div>
+                  </TabPane>
+                </Tabs>
+              </TabPane>
+              <TabPane name="c" label="设计报告" icon="ios-print">
+                <div>
+                  <generate-report-page></generate-report-page>
                 </div>
-              </Panel>
-            </Collapse>
-            <Collapse value="1" style="margin-top: 5px;">
-              <Panel name="1">
-                智能设计结果
-                <div slot="content">
-                  <Tabs size="small" v-show="showOutputAnalysisRes">
-                    <TabPane label="黑龙江双城经济开发区产业发展研究">
-                      <div>
-                        <output-analysis-page></output-analysis-page>
-                      </div>
-                    </TabPane>
-                  </Tabs>
+              </TabPane>
+              <TabPane name="d" label="审批轨迹" icon="md-albums">
+                <div>
+                  <Card style="width:100%">
+                    <span v-if="approverContent==='pass'">同意</span>
+                    <span v-else>退回</span>
+                    <span>:&emsp;{{approverContent}}</span>
+                  </Card>
                 </div>
-              </Panel>
-            </Collapse>
+              </TabPane>
+            </Tabs>
           </div>
         </div>
       </div>
@@ -107,7 +133,7 @@
           <Button style="" type="primary" @click="saveTaskInfo">保存并提交</Button>
         </template>
         <template v-else-if="showBtn('confirmInput')">
-          <Button style="" type="primary" @click="saveTaskInfo">需求确认</Button>
+          <Button style="" type="primary" @click="confirmInput">需求确认</Button>
         </template>
       </div>
     </Modal>
@@ -117,12 +143,15 @@
   import axios from '~/plugins/axios'
   import inputAnalysisPage from '~/components/analysis/inputAnalysisPage'
   import outputAnalysisPage from '~/components/analysis/outputAnalysisPage'
+  import generateReportPage from '~/components/analysis/generateReportPage'
+  import _ from 'lodash'
 
   export default {
     name: 'task-modal',
     components: {
       inputAnalysisPage,
-      outputAnalysisPage
+      outputAnalysisPage,
+      generateReportPage
     },
     props: {
       title: {
@@ -149,18 +178,41 @@
     watch: {
       isShow: function (newVal) {
         this.isShowV = newVal
+        this.uploadFileList = []
       },
       taskInfo: function (newVal) {
-        this.taskInfoS = newVal
+        this.taskInfoS = _.cloneDeep(newVal)
+      },
+      taskInfoS: function (newVal) {
         this.taskInfoS.flowState = this.taskInfoS.flowState || 0
-        if(this.taskInfoS.flowState === '3'){
-          this.showInputAnalysisRes = true
-          this.expandInputAnalysisRes = '1'
-        }
         this.taskInfoS.flowState = parseInt(this.taskInfoS.flowState)
+
+        if(this.taskInfoS.flowState >= 3){
+          this.showInputAnalysisRes = true
+        }
+        if(this.taskInfoS.flowState === 1){
+          this.disableAnalysisInputBtn = false
+        }
+        if(this.taskInfoS.flowState === 4){
+          this.disableAnalysisOutputBtn = false
+        }
+        if(this.taskInfoS.flowState === 7){
+          this.disableGenerateReportBtn = false
+        }
+        if(this.taskInfoS.flowState > 4){
+          this.showOutputAnalysisRes = true
+        }
         if(this.taskInfoS.uploadFiles){
           for(let file of this.taskInfoS.uploadFiles){
             this.uploadFileList.push(file)
+          }
+        }
+        //审批意见
+        if(this.taskInfoS.approveResult && this.taskInfoS.approveResult.length>0){
+          let approveRes = this.taskInfoS.approveResult[this.taskInfoS.approveResult.length-1]
+          if(approveRes){
+            this.approverIsAgree = approveRes.approverIsAgree
+            this.approverContent = approveRes.approverContent
           }
         }
       }
@@ -170,13 +222,16 @@
         currentUser: {},
         isShowV: false,
         taskInfoS: {},
+        designerApprove: '',
         showInputAnalysisRes: false,
         showOutputAnalysisRes: false,
-        expandInputAnalysisRes: '',
-        expandOutputAnalysisRes: '',
-        enableAnalysisInputBtn: true,
-        enableAnalysisOutputBtn: true,
+        disableAnalysisInputBtn: true,
+        disableAnalysisOutputBtn: true,
+        disableGenerateReportBtn: true,
         uploadFileList: [],
+        showResTab: 'a',
+        approverContent: '',
+        approverIsAgree: '',
         taskTypes: [
           {
             value: '1',
@@ -202,7 +257,7 @@
         this.uploadFileList.push(file)
         this.taskInfoS.uploadFiles = this.uploadFileList
         this.taskInfoS.flowState = 1
-        this.enableAnalysisInputBtn = false
+        this.disableAnalysisInputBtn = false
       },
       saveTaskInfo: async function () {
         let planningTask = {
@@ -212,10 +267,35 @@
           uploadFiles: this.taskInfoS.uploadFiles,
           flowState: this.taskInfoS.flowState || 0
         }
-        console.log(planningTask)
+        //如果是"设计结果提交"阶段提交则将流程转到"专家评审"
+        if(this.taskInfoS.flowState === 5){
+          planningTask.flowState = 6
+        }
+        //组装审批意见
+        if(this.taskInfoS.flowState === 6){
+          if(!this.taskInfoS.approveResult || !(this.taskInfoS.approveResult instanceof Array)){
+            this.taskInfoS.approveResult = []
+          }
+          let ar = this.taskInfoS.approveResult
+          ar.push(
+            {
+              approverIsAgree: this.approverIsAgree,
+              approverContent: this.approverContent
+            }
+          )
+          planningTask.approveResult = ar
+        }
+        //审批通过
+        if(this.taskInfoS.flowState === 6 && this.approverIsAgree === 'pass'){
+          planningTask.flowState = 7
+        }
+        //审批不通过
+        if(this.taskInfoS.flowState ===6 && this.approverIsAgree === 'sendBack'){
+          planningTask.flowState = 3
+        }
         let res = await axios.post('/api/tasks/savePlanningTask', {planningTask: planningTask})
         // this.taskInfoS.id =
-        console.log(res)
+        this.$emit('closed')
       },
       closed: function () {
         this.$emit('closed')
@@ -239,7 +319,6 @@
         setTimeout(() => {
           this.$Spin.hide()
           this.showInputAnalysisRes = true
-          this.expandInputAnalysisRes = '1'
           this.taskInfoS.flowState = 3
         }, 3000);
       },
@@ -248,7 +327,17 @@
         if(btnTag === 'save' && (this.taskInfoS.flowState===0 || !this.taskInfoS.flowState)){
           return true
         }
-        if(btnTag === 'saveAndCommit' && (this.taskInfoS.flowState===1 || this.taskInfoS.flowState===3) && user.role==='customer'){
+        if(btnTag === 'saveAndCommit' &&
+          (this.taskInfoS.flowState===1 || this.taskInfoS.flowState===3
+            || this.taskInfoS.flowState===5
+            || this.taskInfoS.flowState===7
+          )
+          && user.role==='customer'){
+          return true
+        }
+        if(btnTag === 'saveAndCommit' &&
+          this.taskInfoS.flowState===6
+          && user.role==='designer'){
           return true
         }
         //需求确认,设计者确认
@@ -259,10 +348,63 @@
       },
       openChatWindow () {
         window.open('http://wpa.qq.com/msgrd?v=3&uin=595676978&site=qq&menu=yes')
+      },
+      confirmInput: async function () {
+        let planningTask = {
+          id: this.taskInfoS.id,
+          flowState: '4'
+        }
+        let res = await axios.post('/api/tasks/savePlanningTask', {planningTask: planningTask})
+        console.log(res)
+        this.disableAnalysisOutputBtn = true
+        this.$emit('closed')
+      },
+      analysisOutput () {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'demo-spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '智能设计中')
+            ])
+          }
+        });
+        setTimeout(() => {
+          this.$Spin.hide()
+          this.taskInfoS.flowState = 5
+          this.showResTab = 'b'
+        }, 3000);
+      },
+      generateReport () {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'demo-spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '生成报告中')
+            ])
+          }
+        });
+        setTimeout(() => {
+          this.$Spin.hide()
+          this.showOutputAnalysisRes = true
+          this.showResTab = 'c'
+        }, 3000);
       }
     },
     mounted () {
       this.currentUser = this.$store.state.user
+      this.uploadFileList = []
     }
   }
 </script>

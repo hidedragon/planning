@@ -27,7 +27,7 @@ module.exports = {
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', 'echarts-gl', 'iview', './plugins/iview.js'],
+    vendor: ['axios', 'echarts-gl', 'lodash','iview', './plugins/iview.js'],
     /*
     ** Run ESLINT on save
     */

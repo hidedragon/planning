@@ -65,6 +65,10 @@ let planningTask = {
     type: Sequelize.DATE,
     title: "审批通过时间"
   },
+  approveResult: {
+    type: Sequelize.JSON,
+    title: '审批意见'
+  },
   flowState: {
     type: Sequelize.STRING,
     title: "流程状态",

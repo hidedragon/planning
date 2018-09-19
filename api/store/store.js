@@ -14,7 +14,7 @@ const mysqlDb = new Sequelize("sohi", "root", "123456", {
   },
   operatorsAliases: false,
   logging: function (sql) {
-    //    console.log("执行sql:"+sql);
+       console.log("执行sql:"+sql);
   }
 })
 
