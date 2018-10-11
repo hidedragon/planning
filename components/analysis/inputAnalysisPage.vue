@@ -1,23 +1,18 @@
 <template>
-  <div id="body" style="background-color:#666;width:100%;text-align: center;display: flex;justify-content: center;color: #ffffff;">
-    <div id="content" style="background-color:#333;width: 740px;padding: 20px 20px">
-      <div id="chart1" style="width:700px;height: 400px;"></div>
-      <div id="chart2" style="width:700px;height: 600px;"></div>
-      <div id="chart3" style="width:700px;height: 400px;"></div>
-      <div id="chart4" style="width:700px;height: 400px;"></div>
-      <div id="chart5" style="width:700px;height: 400px;"></div>
-      <div id="chart6" style="width:700px;height: 500px;"></div>
-      <div id="chart7" style="width:700px;height: 500px;"></div>
-      <div id="chart8" style="width:700px;height: 500px;"></div>
-      <div id="chart9" style="width:700px;height: 400px;"></div>
-      <div id="chart10" style="width:700px;height: 400px;"></div>
-      <!--2011-2015年双城区非公有制经济增加值（单位：万元）-->
-      <div id="chart11" style="width:700px;height: 500px;"></div>
-      <div id="chart12" style="width:700px;height: 500px;"></div>
-      <div id="chart13" style="width:700px;height: 500px;"></div>
-      <div id="chart14" style="width:700px;height: 500px;"></div>
-      <div id="chart15" style="width:700px;height: 500px;"></div>
-      <div id="chart16" style="width:700px;height: 500px;"></div>
+  <div id="body" style="background-color:#333;width:100%;display: flex;justify-content: center;color: #ffffff;">
+    <div style="width:380px">
+      <div id="chart3" style="width:380px;height: 380px;"></div>
+      <div id="chart4" style="width:380px;height: 380px;"></div>
+      <div id="chart5" style="width:380px;height: 380px;"></div>
+    </div>
+    <div id="content" style="background-color:#333;width: 600px;display: flex;flex-direction:column;justify-content: center;">
+      <div id="chart1" style="width:600px;height: 600px;"></div>
+      <div style="height:250px"></div>
+    </div>
+    <div style="width:380px">
+      <div id="chart12" style="width:460px;height: 380px;"></div>
+      <div id="chart14" style="width:460px;height: 380px;"></div>
+      <div id="chart16" style="width:460px;height: 380px;"></div>
     </div>
   </div>
 </template>
@@ -29,7 +24,8 @@
       let myChart1 = echarts.init(document.getElementById('chart1'),'dark')
       var option1 = {
           title: {
-              text: '哈尔滨市人口分布(2016)'
+              text: '哈尔滨市人口分布(2016)',
+              left:'center'
           },
           tooltip: {
               trigger: 'item',
@@ -70,70 +66,6 @@
 
       myChart1.setOption(option1)
   }
-  function showChart2(){
-      let myChart = echarts.init(document.getElementById('chart2'),'dark')
-      var seriesLabel = {
-          normal: {
-              show: true,
-              textBorderColor: '#333',
-              textBorderWidth: 2
-          }
-      }
-      let option = {
-          title: {
-              text: '2015年哈尔滨市各区人口机械变动情况'
-          },
-          tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                  type: 'shadow'
-              }
-          },
-          legend: {
-              data: ['迁入', '迁出', '变动'],
-              left: 'right',
-              //top:'bottom'
-          },
-
-
-          xAxis: {
-              type: 'value',
-              name: '人',
-              axisLabel: {
-                  formatter: '{value}'
-              }
-          },
-          yAxis: {
-              type: 'category',
-              inverse: true,
-              data: ['南岗区', '道里区', '道外区',"松北区", "香坊区", "平房区", "呼兰区", "阿城区", "双城区"]
-
-          },
-          series: [
-              {
-                  name: '迁入',
-                  type: 'bar',
-                  data: [14898,7046,9086,3367,8075,1216,5393,1902,3432],
-                  label: seriesLabel
-              },
-              {
-                  name: '迁出',
-                  type: 'bar',
-                  label: seriesLabel,
-                  data: [-17747,-4928,-10528,-2644,-8383,-877,-13175,-9186,-25673]
-              },
-              {
-                  name: '变动',
-                  type: 'bar',
-                  label: seriesLabel,
-                  data: [-2849,2118,-1442,723 ,-308,339,-7782 ,-7284 ,-22241]
-              }
-          ]
-      };
-
-
-      myChart.setOption(option)
-  }
   function showChart3() {
 
       let myChart = echarts.init(document.getElementById('chart3'),'dark')
@@ -142,7 +74,7 @@
       let option = {
           color :colors,
           title: {
-              text: '2015年双城区人口自然增长情况'
+              text: '2015年双城区人口自然增长情况',
           },
           tooltip: {
               trigger: 'axis',
@@ -152,7 +84,9 @@
           },
           legend: {
               data:['年平均人口','出生率','死亡率','自然增长率'],
-              left: 'right',
+              left:'left',
+              top:'bottom'
+
           },
           xAxis: [
               {
@@ -247,7 +181,8 @@
           },
           legend: {
               data: ['男', '女'],
-              left: 'right'
+              top:30,
+              left:'right'
           },
           grid: {
               left: '3%',
@@ -306,7 +241,8 @@
           },
           legend: {
               data: ['0-14岁', '15-64岁','65岁及以上'],
-              left: 'right'
+              top:30,
+              left:'right'
           },
           grid: {
               left: '3%',
@@ -362,540 +298,7 @@
       };
       myChart.setOption(option)
   }
-  function showChart6(){
-      let myChart = echarts.init(document.getElementById('chart6'),'dark')
-      let option = {
-        baseOption:{
-            timeline:{
-                axisType: 'category',
-                autoPlay: true,
-                playInterval: 3000,
-                data: [
-                    2010,2011,2012,2013,2014
-                ]
-            },
-            legend: {
-                x: 'right',
-                data: ['男', '女']
-            },
-            tooltip: {
-            },
-            calculable : true,
-            grid: {
-                top: 80,
-                bottom: 100,
-                right:"50%",
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow',
-                        label: {
-                            show: true,
-                            formatter: function (params) {
-                                return params.value.replace('\n', '');
-                            }
-                        }
-                    }
-                }
-            },
-            xAxis: [
-                {
-                    'type':'category',
-                    'axisLabel':{'interval':0},
-                    'data':[
-                        '双城镇'
-                    ],
-                    splitLine: {show: false}
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '人'
-                }
-            ],
-            series: [
-                {name: '男', type: 'bar',barWidth:32},
-                {name: '女', type: 'bar',barWidth:32},
 
-                {
-                    name: '性别占比',
-                    type: 'pie',
-                    center: ['70%', '50%'],
-                    radius: '28%',
-                    z: 100
-                }
-            ]
-        },
-          options: [
-              {
-                  title: {text: '2010双城镇人口性别构成'},
-                  series: [
-
-                      {data: [93121,16036,11359]},
-                      {data: [93234,16098,11116]},
-
-                      {data: [
-                          {name: '男', value: 49.97},
-                          {name: '女', value: 50.03 }
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2011双城镇人口性别构成'},
-                  series : [
-                      {data: [92633,15846,11258]},
-                      {data: [93039,15986,11066]},
-
-                      {data: [
-                          {name: '男', value: 49.89},
-                          {name: '女', value: 50.11}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2012双城镇人口性别构成'},
-                  series : [
-                      {data: [91879 ,15709,11184]},
-                      {data: [92491,15892,10960]},
-
-                      {data: [
-                          {name: '男', value: 49.83},
-                          {name: '女', value: 50.17}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2013双城镇人口性别构成'},
-                  series : [
-                      {data: [410613 ,15652,11176]},
-                      {data: [397670,15843,10878]},
-
-                      {data: [
-                          {name: '男', value: 50.80},
-                          {name: '女', value: 49.20  }
-                      ]}
-                  ]
-              }
-              ,
-              {
-                  title : {text: '2014双城镇人口性别构成'},
-                  series : [
-                      {data: [400876 ,14884,11140]},
-                      {data: [385745,15054,10823]},
-
-                      {data: [
-                          {name: '男', value: 50.96},
-                          {name: '女', value: 49.04}
-                      ]}
-                  ]
-              }
-              ]
-      }
-      myChart.setOption(option)
-  }
-  function showChart7(){
-      let myChart = echarts.init(document.getElementById('chart7'),'dark')
-      let option = {
-          baseOption:{
-              timeline:{
-                  axisType: 'category',
-                  autoPlay: true,
-                  playInterval: 3000,
-                  data: [
-                      2010,2011,2012,2013,2014
-                  ]
-              },
-              legend: {
-                  x: 'right',
-                  data: ['男', '女']
-              },
-              tooltip: {
-              },
-              calculable : true,
-              grid: {
-                  top: 80,
-                  bottom: 100,
-                  left:"50%",
-                  tooltip: {
-                      trigger: 'axis',
-                      axisPointer: {
-                          type: 'shadow',
-                          label: {
-                              show: true,
-                              formatter: function (params) {
-                                  return params.value.replace('\n', '');
-                              }
-                          }
-                      }
-                  }
-              },
-              xAxis: [
-                  {
-                      'type':'category',
-                      'axisLabel':{'interval':0},
-                      'data':[
-                          '周家镇'
-                      ],
-                      splitLine: {show: false}
-                  }
-              ],
-              yAxis: [
-                  {
-                      type: 'value',
-                      name: '人'
-                  }
-              ],
-              series: [
-                  {name: '男', type: 'bar',barWidth:32},
-                  {name: '女', type: 'bar',barWidth:32},
-
-                  {
-                      name: '性别占比',
-                      type: 'pie',
-                      center: ['25%', '50%'],
-                      radius: '28%',
-                      z: 100
-                  }
-              ]
-          },
-          options: [
-              {
-                  title: {text: '2010周家镇人口性别构成'},
-                  series: [
-
-                      {data: [16036,11359]},
-                      {data: [16098,11116]},
-
-                      {data: [
-                          {name: '男', value: 49.90 },
-                          {name: '女', value: 50.10 }
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2011周家镇人口性别构成'},
-                  series : [
-                      {data: [15846,11258]},
-                      {data: [15986,11066]},
-
-                      {data: [
-                          {name: '男', value: 49.78},
-                          {name: '女', value: 50.22}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2012周家镇人口性别构成'},
-                  series : [
-                      {data: [15709,11184]},
-                      {data: [15892,10960]},
-
-                      {data: [
-                          {name: '男', value: 49.71},
-                          {name: '女', value: 50.29}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2013周家镇人口性别构成'},
-                  series : [
-                      {data: [15652,11176]},
-                      {data: [15843,10878]},
-
-                      {data: [
-                          {name: '男', value: 49.70},
-                          {name: '女', value: 50.30  }
-                      ]}
-                  ]
-              }
-              ,
-              {
-                  title : {text: '2014周家镇人口性别构成'},
-                  series : [
-                      {data: [14884,11140]},
-                      {data: [15054,10823]},
-
-                      {data: [
-                          {name: '男', value: 49.72},
-                          {name: '女', value: 50.28}
-                      ]}
-                  ]
-              }
-          ]
-      }
-      myChart.setOption(option)
-  }
-  function showChart8(){
-      let myChart = echarts.init(document.getElementById('chart8'),'dark')
-      let option = {
-          baseOption:{
-              timeline:{
-                  axisType: 'category',
-                  autoPlay: true,
-                  playInterval: 3000,
-                  data: [
-                      2010,2011,2012,2013,2014
-                  ]
-              },
-              legend: {
-                  x: 'right',
-                  data: ['男', '女']
-              },
-              tooltip: {
-              },
-              calculable : true,
-              grid: {
-                  top: 80,
-                  bottom: 100,
-                  right:"50%",
-                  tooltip: {
-                      trigger: 'axis',
-                      axisPointer: {
-                          type: 'shadow',
-                          label: {
-                              show: true,
-                              formatter: function (params) {
-                                  return params.value.replace('\n', '');
-                              }
-                          }
-                      }
-                  }
-              },
-              xAxis: [
-                  {
-                      'type':'category',
-                      'axisLabel':{'interval':0},
-                      'data':[
-                          '新兴镇'
-                      ],
-                      splitLine: {show: false}
-                  }
-              ],
-              yAxis: [
-                  {
-                      type: 'value',
-                      name: '人'
-                  }
-              ],
-              series: [
-                  {name: '男', type: 'bar',barWidth:32},
-                  {name: '女', type: 'bar',barWidth:32},
-
-                  {
-                      name: '性别占比',
-                      type: 'pie',
-                      center: ['70%', '50%'],
-                      radius: '28%',
-                      z: 100
-                  }
-              ]
-          },
-          options: [
-              {
-                  title: {text: '2010新兴镇人口性别构成'},
-                  series: [
-
-                      {data: [11359]},
-                      {data: [11116]},
-
-                      {data: [
-                          {name: '男', value: 50.54},
-                          {name: '女', value: 49.46 }
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2011新兴镇人口性别构成'},
-                  series : [
-                      {data: [11258]},
-                      {data: [11066]},
-
-                      {data: [
-                          {name: '男', value: 50.43},
-                          {name: '女', value: 49.57}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2012新兴镇人口性别构成'},
-                  series : [
-                      {data: [11184]},
-                      {data: [10960]},
-
-                      {data: [
-                          {name: '男', value: 50.51  },
-                          {name: '女', value: 49.49}
-                      ]}
-                  ]
-              },
-              {
-                  title : {text: '2013新兴镇人口性别构成'},
-                  series : [
-                      {data: [11176]},
-                      {data: [10878]},
-
-                      {data: [
-                          {name: '男', value: 50.68},
-                          {name: '女', value: 49.32  }
-                      ]}
-                  ]
-              }
-              ,
-              {
-                  title : {text: '2014新兴镇人口性别构成'},
-                  series : [
-                      {data: [11140]},
-                      {data: [10823]},
-
-                      {data: [
-                          {name: '男', value: 50.72},
-                          {name: '女', value: 49.28}
-                      ]}
-                  ]
-              }
-          ]
-      }
-      myChart.setOption(option)
-  }
-  function showChart9(){
-      let myChart = echarts.init(document.getElementById('chart9'),'dark')
-      let option = {
-          title: {
-              text: '2011-2016年双城区工业总产值'
-          },
-          tooltip:{
-
-          },
-          xAxis: {
-              type: 'category',
-              data: [2011,2012,2013,2014,2015,2016]
-          },
-          yAxis: {
-              type: 'value',
-              axisLabel: {
-                  formatter: '{value} 亿元'
-              }
-          },
-          series: [{
-              data: [372.67,326.31,416.60,512.91,568.09,570.00],
-              type: 'line'
-          }]
-
-  }
-      myChart.setOption(option)
-  }
-  function showChart10() {
-
-      let myChart = echarts.init(document.getElementById('chart10'),'dark')
-      var colors = ['#5793f3', '#d14a61'];
-
-      let option = {
-          color :colors,
-          title: {
-              text: '2011-2015年双城区居民消费水平'
-          },
-          tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                  type: 'cross'
-              }
-          },
-          legend: {
-              data:['可比价格居民消费水平','农村居民','城镇居民'],
-              left: 'right',
-          },
-          xAxis: [
-              {
-                  type: 'category',
-                  axisTick: {
-                      alignWithLabel: true
-                  },
-                  data: [2011,2012,2013,2014,2015]
-              }
-          ],
-          yAxis: [
-              {
-                  type: 'value',
-                  name: '元/人',
-                  position: 'left',
-                  axisLabel: {
-                      formatter: '{value}'
-                  }
-              }
-          ],
-          series: [
-
-              {
-                  name:'可比价格居民消费水平',
-                  type:'line',
-                  data:[9391,11086,12985,14714,16831 ]
-              },
-              {
-                  name:'农村居民',
-                  type:'line',
-                  data:[7405,8821,10627,11782,13045]
-              },
-              {
-                  name:'城镇居民',
-                  type:'line',
-                  data:[16225,18863,21099,24934,36564]
-              }
-          ]
-      };
-      myChart.setOption(option)
-
-  }
-  function showChart11() {
-
-      let myChart = echarts.init(document.getElementById('chart11'),'dark')
-      let option = {
-          angleAxis: {
-              type: 'category',
-              data: [2011,2012,2013,2014,2015],
-              z: 10
-          },
-          title: {
-              text: '2011-2015年双城区非公有制经济增加值'
-          },
-          grid:{
-              top: 80,
-              bottom: 100,
-              right:"50%"
-          },
-          tooltip:{
-
-          },
-          radiusAxis: {
-              name:"万元"
-          },
-          polar: {
-          },
-          series: [{
-              type: 'bar',
-              data: [484085,505869,544821,586772,631348],
-              coordinateSystem: 'polar',
-              name: '第一产业'
-          }, {
-              type: 'bar',
-              data: [593177,593177,878377,967647,1043931],
-              coordinateSystem: 'polar',
-              name: '第二产业'
-          }, {
-              type: 'bar',
-              data: [969068,969068,1233974,1403349,1778020],
-              coordinateSystem: 'polar',
-              name: '第三产业'
-          }],
-          legend: {
-              show: true,
-              data: ['第一产业', '第二产业', '第三产业'],
-              left:"right"
-          }
-      };
-      myChart.setOption(option)
-
-  }
   function showChart12() {
 
       let myChart = echarts.init(document.getElementById('chart12'),'dark')
@@ -908,7 +311,8 @@
           },
           legend: {
               data: ['第一产业', '第二产业','第三产业'],
-              left:"right"
+              top:30,
+              left:'right'
           },
           grid: {
 
@@ -949,7 +353,7 @@
               {
                   name: '生产总值(亿元)',
                   type: 'pie',
-                    center: ['80%', '50%'],
+                  center: ['80%', '50%'],
                   radius: '28%',
                   data: [
                       {name: '道里区', value: 609,tooltip:{}},
@@ -964,96 +368,6 @@
                   ],
                   tooltip:{},
                   z: 100
-              }
-          ]
-      };
-      myChart.setOption(option)
-
-  }
-  function showChart13() {
-
-      let myChart = echarts.init(document.getElementById('chart13'),'dark')
-      let option = {
-          title: {
-              text: '2010-2015年哈尔滨市各区固定资产投资情况'
-          },
-          tooltip: {
-              trigger: 'axis',
-              axisPointer: {
-                  type: 'cross'
-              }
-          },
-          legend: {
-              top:"20%",
-              orient:"vertical",
-              data: ['南岗区', '道里区', '道外区',"松北区", "香坊区", "平房区", "呼兰区", "阿城区", "双城区"],
-              left: 'right',
-          },
-          xAxis: [
-              {
-                  type: 'category',
-                  axisTick: {
-                      alignWithLabel: true
-                  },
-                  data: [2010,2011,2012,2013,2014,2015]
-              }
-          ],
-          yAxis: [
-              {
-                  type: 'value',
-                  name: '万元',
-                  position: 'left',
-                  axisLabel: {
-                      formatter: '{value}'
-                  }
-              }
-          ],
-          series: [
-
-              {
-                  name:'道里区',
-                  type:'line',
-                  data:[2822803	,3091718	,4025417	,5163805	,4790287	, 5396702]
-              },
-              {
-                  name:'道外区',
-                  type:'line',
-                  data:[1572348	,1702811	,2218763	,2979799	,2572560	,2759102]
-              },
-              {
-                  name:'南岗区',
-                  type:'line',
-                  data:[3352463	,3234785	,4211690	,5601548	,5108491	,5423189]
-              },
-              {
-                  name:'香坊区',
-                  type:'line',
-                  data:[3300940	,3491066	,4545368	,6221702	,5408483	,5909237]
-              },
-              {
-                  name:'平房区',
-                  type:'line',
-                  data:[3009476	,3113725	,4228677	,3254655	,3409095	,4500000]
-              },
-              {
-                  name:'松北区',
-                  type:'line',
-                  data:[1530057,1999014,	2608583	,3578853	,3236277	,3652558]
-              },
-              {
-                  name:'呼兰区',
-                  type:'line',
-                  data:[1074043	,1200945	,1561229	,1982761	,1669403	,1980060]
-              },
-              {
-                  name:'阿城区',
-                  type:'line',
-                  data:[1802503	,1961200	,2555444	,3431961	,2849196	,3164912]
-              },
-              {
-                  name:'双城区',
-                  type:'line',
-                  data:[1133199	,1218378	,1589983	,2047898	,2341475	,2763571]
               }
           ]
       };
@@ -1107,91 +421,12 @@
               legend: {
                   show: true,
                   data: ['第一产业', '第二产业', '第三产业'],
-                  left:"right"
+                  top:'bottom',
+                  left:'right'
               }
           };
       myChart.setOption(option)
 
-  }
-  function showChart15(){
-      let myChart = echarts.init(document.getElementById('chart15'),'dark')
-      let option = {
-          tooltip : {
-              trigger: 'axis',
-              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-              }
-          },
-
-          title: {
-              text: '2012-2015年双城经济开发区总产值统计'
-          },
-          legend: {
-              data: [ '产值','税金','销售收入','利润'],
-              left: 'right'
-          },
-          grid: {
-              left: '3%',
-              right: '4%',
-              bottom: '3%',
-              containLabel: true
-          },
-          yAxis:  {
-              name:'万元',
-              type: 'value'
-          },
-          xAxis: {
-              type: 'category',
-              data: [2012,2013,2014,2015]
-          },
-          series: [
-              {
-                  name:'产值',
-                  type:'line',
-                  itemStyle: {
-                      normal: {color: '#675bba'}
-                  },
-                  data: [1564756,1907895,2150396,2055712 ]
-              },
-              {
-                  name: '税金',
-                  type: 'bar',
-                  stack: '总量',
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
-                  data: [67771,86451,68888,51616]
-              },
-              {
-                  name: '销售收入',
-                  type: 'bar',
-                  stack: '总量',
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
-                  data: [854667,1747011,1670096,1217611 ]
-              },
-              {
-                  name: '利润',
-                  type: 'bar',
-                  stack: '总量',
-                  label: {
-                      normal: {
-                          show: true,
-                          position: 'insideRight'
-                      }
-                  },
-                  data: [79188,102333,68553,73893 ]
-              }
-          ]
-      };
-      myChart.setOption(option)
   }
   function showChart16() {
 
@@ -1214,7 +449,8 @@
               },
               legend: {
                   data: [ '产值','税金','销售收入','利润'],
-                  left:"right"
+                  top:30,
+                  left:'right'
               },
               grid: {
 
@@ -1326,20 +562,11 @@
     name: 'input-analysis-page',
     mounted () {
         showChart1()
-        showChart2()
         showChart3()
         showChart4()
         showChart5()
-        showChart6()
-        showChart7()
-        showChart8()
-        showChart9()
-        showChart10()
-        showChart11()
         showChart12()
-        showChart13()
         showChart14()
-        showChart15()
         showChart16()
     },
   }
