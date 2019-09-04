@@ -1,6 +1,6 @@
 <template>
   <div>
-    智能舆情推送
+    智能信息推送
   </div>
 </template>
 <script>

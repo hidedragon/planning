@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <script src="../d3/d3src/d3/d3.js"></script>
+    <style>
+        body {
+            background: radial-gradient(720px at 860px, #081f2b 0%, #061616 100%);
+            height: 960px;
+        }
+
+        div {
+            width: 1024px;
+            height:960px;
+            /*border:3px solid red;*/
+            /*background-color: rgba(0, 0, 0, 0.66);*/
+            margin-left: -512px;
+            margin-top: -480px;
+            position:fixed;
+            left: 50%;
+            top: 50%;
+        }
+
+    </style>
+</head>
+
+<body>
+<div><svg></svg></div>
+
+<script>
+
+    var svg = document.getElementsByTagName('svg')[0];
+    svg.onclick = function (d) {
+        console.log(d);
+    }
+
+
+    var width = 1024;
+    var height = 960;
+    var svg = d3.select('body').selectAll('svg')
+        .attr('width',width)
+        .attr('height',height)
+
+
+
+    var arr = d3.json('themeNodes.json', function(error,d) {
+        if(error){console.log(errof)}else {var usersArray = d[0]; var linksArray = d[1];}
+
+
+        for(var i = 0;i <linksArray.length;i++){
+            linksArray[i].source = Number(linksArray[i].source);
+            linksArray[i].target = Number(linksArray[i].target);
+        }
+        console.log(usersArray);
+        console.log(linksArray);
+
+        var radius = 40;
+        var color = d3.scale.category20b();
+
+
+        var force = d3.layout.force()
+            .size([900, 900])
+            .linkDistance(175)
+            .linkStrength(0.8)
+            .charge(function(d) {return -d.dep * 20})
+            .friction(0.9)
+            .theta(0.8)
+            .gravity(0.1)
+            .on('tick', updatePositions)
+            .nodes(usersArray)
+            .links(linksArray);
+
+        force.start();
+        // force.stop();
+        console.log(force.linkStrength())
+
+        // calculate the radius for each user
+        var minRadius = d3.min(usersArray, function(d) {return Number(d.dep)});
+        var maxRadius = d3.max(usersArray, function(d) {return Number(d.dep)});
+        var radiusScale = d3.scale.linear()
+            .domain([minRadius, maxRadius])
+            .range([radius , radius/10]);
+
+        var link = svg.selectAll('path')
+            .data(linksArray)
+            .enter().append('path')
+            .attr('fill', 'none')
+            .attr('stroke', '#ffe700')
+            .attr('stroke-width', 2)
+            .attr('stroke-opacity', 0.25);
+
+        var circle = svg.selectAll('g')
+            .data(usersArray)
+            .enter().append('g')
+            .on('mouseenter', hoverNode)
+            .on('mouseleave', unhoverNode)
+            .call(force.drag);
+        console.log(circle);
+
+        circle.append('circle')
+            .attr('fill-opacity', 0.5)
+            .attr('fill', function (d,i) {
+                // console.log(d);
+                return color(i);
+            })
+            .attr('r', function(d) {
+                d.radius = radiusScale(Number(d.dep));
+                return d.radius;
+            });
+
+        circle
+            .append('text')
+            .attr('opacity', function(d) {return d.dep > radius / 10 ? 0 : 1})
+            .attr('text-anchor', 'middle')
+            .attr('fill','#fff')
+            .attr('font-size', function(d){return 16/d.dep;
+            })
+            .style('pointer-events', 'none')
+            .text(function(d) {return d.name});
+
+        function updatePositions() {
+            circle.attr('transform', function(d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+            link.attr('d', linkArc);
+        }
+
+        // link arc function from https://bl.ocks.org/mbostock/1153292
+        function linkArc(d) {
+            var dx = d.target.x - d.source.x,
+                dy = d.target.y - d.source.y,
+                dr = Math.sqrt(dx * dx + dy * dy);
+            return "M" + d.source.x + "," + d.source.y +
+                "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+        }
+
+        function hoverNode(d) {
+            var name = d.name;
+            var highlightedNodes = {};
+            // when they hover node, highlight the node
+            // and nodes it's attached to
+            link.attr('stroke-opacity', function(d) {
+                if (d.source.name === name ||
+                    d.target.name === name) {
+                    highlightedNodes[d.source.name] = 1;
+                    highlightedNodes[d.target.name] = 1;
+                    return .75;
+                }
+                return 0;
+            });
+
+
+            circle.selectAll('circle')
+                .attr('fill-opacity', function(d) {
+                    return highlightedNodes[d.name] ? .75 : 0;
+                });
+            circle.selectAll('text')
+                .attr('font-size',function (d) {
+                    return 14;
+                })
+                .attr('opacity', function(d) {
+                    return highlightedNodes[d.name] ? 1 : 0;
+                });
+        }
+
+        function unhoverNode() {
+            link.attr('stroke-opacity', 0.25);
+            circle.selectAll('circle')
+                .attr('fill-opacity', 0.5);
+            circle.selectAll('text')
+                .attr('opacity', function(d) {return d.dep > radius / 10? 0 : 1});
+        };
+    });
+
+
+
+
+</script>
+</body>

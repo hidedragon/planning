@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<head style="height: 100%">
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <style>
+        body {
+            background: radial-gradient(720px at 860px, #081f2b 0%, #061616 100%);
+            height: 960px;
+        }
+        div {
+            width: 1024px;
+            height:960px;
+            margin-left: -512px;
+            margin-top: -480px;
+            position:fixed;
+            left: 50%;
+            top: 50%;
+        }
+    </style>
+</head>
+
+<body >
+<div><svg></svg></div>
+
+<script>
+
+    var svg = document.getElementsByTagName('svg')[0];
+    svg.onclick = function (d) {
+        console.log(d);
+    }
+
+
+
+    var width = 1024;
+    var height = 960;
+    var svg = d3.select('body').selectAll('svg')
+        .attr('width',width)
+        .attr('height',height)
+
+
+
+
+        var datasetTheme = [[{"name":"国土空间规划","dep":"1","id":"0"},{"name":"控制性详细规划","dep":"1","id":"1"},{"name":"修建性详细规划","dep":"1","id":"2"},{"name":"城市设计","dep":"1","id":"3"},{"name":"风景区规划","dep":"1","id":"4"},{"name":"规划选址","dep":"1","id":"5"},{"name":"规划设计条件","dep":"1","id":"6"},{"name":"信息技术服务","dep":"1","id":"7","__EMPTY_1":" "},{"name":"研究型规划","dep":"1","id":"8"},{"name":"规划咨询","dep":"1","id":"9"},{"name":"经济社会发展战略规划","dep":"1","id":"10"},{"name":"产业规划","dep":"1","id":"11"},{"name":"可行性研究项目","dep":"1","id":"12"},{"name":"旅游规划","dep":"1","id":"13"},{"name":"旅游发展规划","dep":"2","id":"14"},{"name":"旅游区规划","dep":"2","id":"15"},{"name":"旅游项目策划","dep":"2","id":"16"},{"name":"总体规划","dep":"2","id":"17"},{"name":"详细规划","dep":"2","id":"18"},{"name":"专项规划","dep":"2","id":"19"},{"name":"地块层面","dep":"2","id":"20"},{"name":"单元（街区）","dep":"2","id":"21"},{"name":"居住区","dep":"2","id":"22"},{"name":"城市一般地段公建","dep":"2","id":"23"},{"name":"城市重点地段","dep":"2","id":"24"},{"name":"大型公建及周围地段","dep":"2","id":"25"},{"name":"公园","dep":"2","id":"26"},{"name":"游乐场","dep":"2","id":"27"},{"name":"园林","dep":"2","id":"28"},{"name":"总体城市设计","dep":"2","id":"29"},{"name":"重点地区城市设计","dep":"2","id":"30"},{"name":"专项城市设计","dep":"2","id":"31"},{"name":"风景区规划大纲","dep":"3","id":"32"},{"name":"风景区总体规划","dep":"3","id":"33"},{"name":"风景区控制性详细规划","dep":"3","id":"34"},{"name":"风景区修建性详细规划","dep":"3","id":"35"},{"name":"控详层面","dep":"3","id":"36"},{"name":"总规层面","dep":"3","id":"37"},{"name":"设计任务书编制","dep":"5","id":"38"},{"name":"招标标书编制","dep":"5","id":"39"},{"name":"设计条件编制","dep":"5","id":"40"},{"name":"交通设施详细规划收费标准","dep":"5","id":"41"},{"name":"交通规划条件收费标准","dep":"5","id":"42"},{"name":"信息咨询服务","dep":"5","id":"43"},{"name":"信息加工处理","dep":"5","id":"44"},{"name":"信息系统开发","dep":"5","id":"45"},{"name":"智慧城市规划","dep":"5","id":"46"},{"name":"总体层面","dep":"5","id":"47"},{"name":"实施层面","dep":"5","id":"48"},{"name":"工程层面","dep":"5","id":"49"},{"name":"顾问咨询服务","dep":"5","id":"50"},{"name":"开发策划","dep":"5","id":"51"},{"name":"城市群发展规划","dep":"5","id":"52"},{"name":"经济区区域规划","dep":"5","id":"53"},{"name":"十三五规划","dep":"5","id":"54"},{"name":"轨道交通建设规划","dep":"5","id":"55"},{"name":"通用机场布局规划","dep":"5","id":"56"},{"name":"沿海渔港建设规划","dep":"5","id":"57"},{"name":"国家公园总体规划","dep":"5","id":"58"},{"name":"居民拆建规划","dep":"5","id":"59"},{"name":"全国旅游发展规划","dep":"5","id":"60"},{"name":"区域旅游发展规划","dep":"5","id":"61"},{"name":"地区旅游发展规划","dep":"5","id":"62"},{"name":"旅游区总体规划","dep":"5","id":"63"},{"name":"旅游区控制性详细规划","dep":"5","id":"64"},{"name":"旅游区修建性详细规划","dep":"5","id":"65"},{"name":"旅游区专项规划","dep":"5","id":"66"},{"name":"生态旅游项目策划","dep":"5","id":"67"},{"name":"度假区项目策划","dep":"5","id":"68"},{"name":"民俗文化游项目策划","dep":"5","id":"69"},{"name":"主题公园项目策划","dep":"5","id":"70"},{"name":"文化节项目策划","dep":"5","id":"71"},{"name":"世纪旅游项目策划","dep":"5","id":"72"},{"name":"婚庆游项目策划","dep":"5","id":"73"},{"name":"农林水利","dep":"5","id":"74"},{"name":"能源","dep":"5","id":"75"},{"name":"交通运输","dep":"5","id":"76"},{"name":"信息产业","dep":"5","id":"77"},{"name":"原材料","dep":"5","id":"78"},{"name":"机械制造","dep":"5","id":"79"},{"name":"轻工","dep":"5","id":"80"},{"name":"高新技术","dep":"5","id":"81"},{"name":"城建","dep":"5","id":"82"},{"name":"社会事业","dep":"5","id":"83"},{"name":"高新技术产业","dep":"5","id":"84"},{"name":"新能源产业","dep":"5","id":"85"},{"name":"新材料产业","dep":"5","id":"86"},{"name":"化工产业","dep":"5","id":"87"},{"name":"现代物流产业","dep":"5","id":"88"},{"name":"先进制造业","dep":"5","id":"89"},{"name":"节能环保产业","dep":"5","id":"90"},{"name":"旅游产业","dep":"5","id":"91"},{"name":"文化创意产业","dep":"5","id":"92"},{"name":"动漫游戏产业","dep":"5","id":"93"},{"name":"信息产业","dep":"5","id":"94"},{"name":"生物产业","dep":"5","id":"95"},{"name":"涉水产业","dep":"5","id":"96"},{"name":"蔬菜产业","dep":"5","id":"97"},{"name":"健康产业","dep":"5","id":"98"},{"name":"养老产业","dep":"5","id":"99"},{"name":"工业","dep":"3","id":"100"},{"name":"农牧业","dep":"3","id":"101"},{"name":"林业","dep":"3","id":"102"},{"name":"服务业","dep":"3","id":"103"},{"name":"旅游业","dep":"3","id":"104"},{"name":"教育事业","dep":"3","id":"105"},{"name":"人口和计划生育","dep":"3","id":"106"},{"name":"综合交通运输","dep":"3","id":"107"},{"name":"水务","dep":"3","id":"108"},{"name":"海洋经济","dep":"3","id":"109"},{"name":"污染防治与水土保持","dep":"3","id":"110"},{"name":"农村沼气","dep":"3","id":"111"},{"name":"地热能开发利用","dep":"3","id":"112"},{"name":"电力","dep":"3","id":"113"},{"name":"防灾减灾","dep":"3","id":"114"},{"name":"农村经济","dep":"3","id":"115"},{"name":"居民迁建规划","dep":"3","id":"116"},{"name":"全国","dep":"3","id":"117"},{"name":"省级","dep":"3","id":"118"},{"name":"市级","dep":"3","id":"119"},{"name":"县级","dep":"3","id":"120"},{"name":"镇/乡","dep":"3","id":"121"},{"name":"控制性详细规划","dep":"2","id":"122"},{"name":"修建性详细规划","dep":"2","id":"123"},{"name":"村庄规划","dep":"2","id":"124"},{"name":"海岸带","dep":"3","id":"125"},{"name":"自然保护地","dep":"3","id":"126"},{"name":"跨区域/流域","dep":"3","id":"127"},{"name":"交通","dep":"3","id":"128"},{"name":"能源","dep":"3","id":"129"},{"name":"水利","dep":"3","id":"130"},{"name":"信息","dep":"3","id":"131"},{"name":"市政","dep":"3","id":"132"},{"name":"公共服务设施","dep":"3","id":"133"},{"name":"军事设施","dep":"3","id":"134"},{"name":"生态环境保护","dep":"3","id":"135"},{"name":"文物保护","dep":"3","id":"136"},{"name":"林业草原","dep":"3","id":"137"},{"name":"其他类专项规划","dep":"3","id":"138"},{"name":"大数据分析","dep":"3","id":"139"},{"name":"数据调查报告","dep":"3","id":"140"},{"name":"流量预测","dep":"3","id":"141"},{"name":"国土空间规划信息制作","dep":"3","id":"142"},{"name":"数据框架技术服务","dep":"3","id":"143"},{"name":"数据平台开发服务","dep":"3","id":"144"},{"name":"资料汇集平台","dep":"3","id":"145"},{"name":"信息调研平台","dep":"3","id":"146"},{"name":"数据分析平台","dep":"3","id":"147"},{"name":"规划展示平台","dep":"3","id":"148"},{"name":"城市运营平台","dep":"3","id":"149"},{"name":"各类试点评估","dep":"3","id":"150"},{"name":"各类试点的申报材料编制","dep":"3","id":"151"},{"name":"专项信息咨询","dep":"3","id":"152"},{"name":"城市战略/新区开发策划","dep":"3","id":"153"},{"name":"产业园区（度假区）","dep":"3","id":"154"},{"name":"房地产开发策划","dep":"3","id":"155"},{"name":"特色小镇类项目","dep":"3","id":"156"},{"name":"旧城改造类项目","dep":"3","id":"157"},{"name":"省级旅游发展规划","dep":"3","id":"158"},{"name":"地市级旅游发展规划","dep":"3","id":"159"},{"name":"县级旅游发展规划","dep":"3","id":"160"},{"name":"森林、沙漠、草原、高山","dep":"3","id":"161"},{"name":"农业","dep":"5","id":"162"},{"name":"水利工程","dep":"5","id":"163"},{"name":"水电站","dep":"5","id":"164"},{"name":"抽水蓄能电站","dep":"5","id":"165"},{"name":"火电站","dep":"5","id":"166"},{"name":"热电站","dep":"5","id":"167"},{"name":"风电站","dep":"5","id":"168"},{"name":"核电站","dep":"5","id":"169"},{"name":"电网工程","dep":"5","id":"170"},{"name":"煤矿","dep":"5","id":"171"},{"name":"煤制燃料","dep":"5","id":"172"},{"name":"液化石油气接收、存储设施","dep":"5","id":"173"},{"name":"天然气接收、存储设施","dep":"5","id":"174"},{"name":"输油管网","dep":"5","id":"175"},{"name":"输气管网","dep":"5","id":"176"},{"name":"炼油","dep":"5","id":"177"},{"name":"新建铁路","dep":"5","id":"178"},{"name":"公路","dep":"5","id":"179"},{"name":"独立公路、桥隧","dep":"5","id":"180"},{"name":"煤炭、矿石、油气专用泊位","dep":"5","id":"181"},{"name":"集装箱码头","dep":"5","id":"182"},{"name":"内河航运","dep":"5","id":"183"},{"name":"民航","dep":"5","id":"184"},{"name":"电信","dep":"5","id":"185"},{"name":"稀土、铁矿、有色矿山","dep":"5","id":"186"},{"name":"石化","dep":"5","id":"187"},{"name":"煤化工","dep":"5","id":"188"},{"name":"稀土","dep":"5","id":"189"},{"name":"黄金","dep":"5","id":"190"},{"name":"汽车","dep":"5","id":"191"},{"name":"烟草","dep":"5","id":"192"},{"name":"民用航空航天","dep":"5","id":"193"},{"name":"城市快速轨道交通","dep":"5","id":"194"},{"name":"城市道路桥梁、隧道","dep":"5","id":"195"},{"name":"危险废物和医疗废物处置设施","dep":"5","id":"196"},{"name":"房地产、城镇污水处理、生活垃圾处理","dep":"5","id":"197"},{"name":"主题公园","dep":"5","id":"198"},{"name":"旅游","dep":"5","id":"199"},{"name":"交通承载力","dep":"4","id":"200"},{"name":"交通专项","dep":"4","id":"201"},{"name":"线网规划","dep":"4","id":"202"},{"name":"路网评估","dep":"4","id":"203"},{"name":"交通改善","dep":"4","id":"204"},{"name":"交通评价","dep":"4","id":"205"},{"name":"市政基础设施","dep":"4","id":"206"},{"name":"综合管线规划","dep":"4","id":"207"},{"name":"海绵城市建设","dep":"4","id":"208"},{"name":"历史文化名城","dep":"4","id":"209"},{"name":"历史文化名镇","dep":"4","id":"210"},{"name":"历史文化名村","dep":"4","id":"211"},{"name":"历史文化街区","dep":"4","id":"212"},{"name":"历史地段保护整治","dep":"4","id":"213"},{"name":"文化遗产保护","dep":"4","id":"214"},{"name":"防灾减灾","dep":"4","id":"215"},{"name":"城市地下空间","dep":"4","id":"216"},{"name":"生态环境景观","dep":"4","id":"217"},{"name":"更新改造","dep":"4","id":"218"},{"name":"新型城镇化试点评估","dep":"4","id":"219"},{"name":"低碳新区试点评估","dep":"4","id":"220"},{"name":"海绵城市试点评估","dep":"4","id":"221"},{"name":"市政综合管廊试点评估","dep":"4","id":"222"},{"name":"城市研究","dep":"4","id":"223"},{"name":"资源分析","dep":"4","id":"224"},{"name":"基地分析","dep":"4","id":"225"},{"name":"规划分析","dep":"4","id":"226"},{"name":"市场分析","dep":"4","id":"227"},{"name":"案例研究","dep":"4","id":"228"},{"name":"定位研究","dep":"4","id":"229"},{"name":"项目策划","dep":"4","id":"230"},{"name":"功能分区","dep":"4","id":"231"},{"name":"开发运营策划","dep":"4","id":"232"},{"name":"产业发展基础","dep":"4","id":"233"},{"name":"产业发展态势","dep":"4","id":"234"},{"name":"产业发展政策","dep":"4","id":"235"},{"name":"产业发展思路","dep":"4","id":"236"},{"name":"产业定位研究","dep":"4","id":"237"},{"name":"产业重点项目","dep":"4","id":"238"},{"name":"产业开发运营","dep":"4","id":"239"},{"name":"宏观区域态势分析","dep":"4","id":"240"},{"name":"社会经济态势分析","dep":"4","id":"241"},{"name":"城市功能分析","dep":"4","id":"242"},{"name":"房地产市场分析","dep":"4","id":"243"},{"name":"上位规划分析","dep":"4","id":"244"},{"name":"项目基地分析","dep":"4","id":"245"},{"name":"项目总体定位分析","dep":"4","id":"246"},{"name":"项目业态策划","dep":"4","id":"247"},{"name":"产品及布局建议","dep":"4","id":"248"},{"name":"投资收益测算","dep":"4","id":"249"}],[{"source":"0","target":"17"},{"source":"0","target":"18"},{"source":"0","target":"19"},{"source":"0","target":"1"},{"source":"0","target":"2"},{"source":"0","target":"3"},{"source":"0","target":"4"},{"source":"0","target":"5"},{"source":"0","target":"6"},{"source":"0","target":"7"},{"source":"1","target":"20"},{"source":"1","target":"21"},{"source":"1","target":"34"},{"source":"1","target":"36"},{"source":"1","target":"41"},{"source":"1","target":"64"},{"source":"2","target":"22"},{"source":"2","target":"23"},{"source":"2","target":"24"},{"source":"2","target":"25"},{"source":"2","target":"26"},{"source":"2","target":"27"},{"source":"2","target":"28"},{"source":"2","target":"36"},{"source":"2","target":"41"},{"source":"2","target":"65"},{"source":"3","target":"29"},{"source":"3","target":"30"},{"source":"3","target":"31"},{"source":"4","target":"32"},{"source":"4","target":"33"},{"source":"4","target":"34"},{"source":"4","target":"35"},{"source":"5","target":"6"},{"source":"5","target":"36"},{"source":"5","target":"37"},{"source":"5","target":"38"},{"source":"5","target":"39"},{"source":"5","target":"40"},{"source":"5","target":"41"},{"source":"5","target":"42"},{"source":"6","target":"36"},{"source":"6","target":"37"},{"source":"6","target":"38"},{"source":"6","target":"39"},{"source":"6","target":"40"},{"source":"6","target":"41"},{"source":"6","target":"42"},{"source":"7","target":"43"},{"source":"43","target":"139"},{"source":"43","target":"140"},{"source":"43","target":"141"},{"source":"7","target":"44"},{"source":"44","target":"142"},{"source":"7","target":"45"},{"source":"45","target":"143"},{"source":"45","target":"144"},{"source":"7","target":"46"},{"source":"46","target":"145"},{"source":"46","target":"146"},{"source":"46","target":"147"},{"source":"46","target":"148"},{"source":"46","target":"149"},{"source":"8","target":"47"},{"source":"8","target":"48"},{"source":"8","target":"49"},{"source":"9","target":"50"},{"source":"50","target":"150"},{"source":"50","target":"151"},{"source":"50","target":"152"},{"source":"9","target":"51"},{"source":"51","target":"153"},{"source":"153","target":"223"},{"source":"153","target":"224"},{"source":"153","target":"225"},{"source":"153","target":"226"},{"source":"153","target":"227"},{"source":"153","target":"228"},{"source":"153","target":"229"},{"source":"153","target":"230"},{"source":"153","target":"231"},{"source":"153","target":"232"},{"source":"51","target":"154"},{"source":"154","target":"233"},{"source":"154","target":"234"},{"source":"154","target":"235"},{"source":"154","target":"236"},{"source":"154","target":"237"},{"source":"154","target":"238"},{"source":"154","target":"239"},{"source":"51","target":"155"},{"source":"155","target":"240"},{"source":"155","target":"241"},{"source":"155","target":"242"},{"source":"155","target":"243"},{"source":"155","target":"244"},{"source":"155","target":"245"},{"source":"155","target":"246"},{"source":"155","target":"247"},{"source":"155","target":"248"},{"source":"155","target":"249"},{"source":"52","target":"143"},{"source":"52","target":"144"},{"source":"10","target":"53"},{"source":"53","target":"145"},{"source":"53","target":"146"},{"source":"53","target":"147"},{"source":"53","target":"148"},{"source":"53","target":"149"},{"source":"10","target":"54"},{"source":"54","target":"100"},{"source":"54","target":"101"},{"source":"54","target":"102"},{"source":"54","target":"103"},{"source":"54","target":"104"},{"source":"54","target":"105"},{"source":"54","target":"106"},{"source":"54","target":"107"},{"source":"54","target":"108"},{"source":"54","target":"109"},{"source":"54","target":"110"},{"source":"54","target":"111"},{"source":"54","target":"112"},{"source":"54","target":"113"},{"source":"54","target":"114"},{"source":"54","target":"115"},{"source":"10","target":"55"},{"source":"10","target":"56"},{"source":"10","target":"57"},{"source":"11","target":"84"},{"source":"11","target":"85"},{"source":"11","target":"86"},{"source":"11","target":"87"},{"source":"11","target":"88"},{"source":"11","target":"89"},{"source":"11","target":"90"},{"source":"11","target":"91"},{"source":"11","target":"92"},{"source":"11","target":"93"},{"source":"11","target":"94"},{"source":"11","target":"95"},{"source":"11","target":"96"},{"source":"11","target":"97"},{"source":"11","target":"98"},{"source":"11","target":"99"},{"source":"12","target":"74"},{"source":"74","target":"162"},{"source":"74","target":"163"},{"source":"12","target":"75"},{"source":"75","target":"164"},{"source":"75","target":"165"},{"source":"75","target":"166"},{"source":"75","target":"167"},{"source":"75","target":"168"},{"source":"75","target":"169"},{"source":"75","target":"170"},{"source":"75","target":"171"},{"source":"75","target":"172"},{"source":"75","target":"173"},{"source":"75","target":"174"},{"source":"75","target":"175"},{"source":"75","target":"176"},{"source":"75","target":"177"},{"source":"12","target":"76"},{"source":"76","target":"178"},{"source":"76","target":"179"},{"source":"76","target":"180"},{"source":"76","target":"181"},{"source":"76","target":"182"},{"source":"76","target":"183"},{"source":"76","target":"184"},{"source":"12","target":"77"},{"source":"77","target":"185"},{"source":"12","target":"78"},{"source":"78","target":"186"},{"source":"78","target":"187"},{"source":"78","target":"188"},{"source":"78","target":"189"},{"source":"78","target":"190"},{"source":"12","target":"79"},{"source":"79","target":"191"},{"source":"12","target":"80"},{"source":"80","target":"192"},{"source":"12","target":"81"},{"source":"81","target":"193"},{"source":"12","target":"82"},{"source":"82","target":"194"},{"source":"82","target":"195"},{"source":"82","target":"196"},{"source":"82","target":"197"},{"source":"12","target":"83"},{"source":"83","target":"198"},{"source":"83","target":"199"},{"source":"13","target":"14"},{"source":"13","target":"15"},{"source":"13","target":"16"},{"source":"14","target":"60"},{"source":"14","target":"61"},{"source":"14","target":"62"},{"source":"62","target":"158"},{"source":"62","target":"159"},{"source":"62","target":"160"},{"source":"15","target":"63"},{"source":"15","target":"64"},{"source":"15","target":"65"},{"source":"15","target":"66"},{"source":"16","target":"67"},{"source":"67","target":"161"},{"source":"16","target":"68"},{"source":"16","target":"69"},{"source":"16","target":"70"},{"source":"16","target":"71"},{"source":"16","target":"72"},{"source":"16","target":"73"},{"source":"17","target":"117"},{"source":"17","target":"118"},{"source":"17","target":"119"},{"source":"17","target":"120"},{"source":"17","target":"121"},{"source":"18","target":"122"},{"source":"122","target":"20"},{"source":"122","target":"21"},{"source":"18","target":"123"},{"source":"123","target":"22"},{"source":"123","target":"23"},{"source":"123","target":"24"},{"source":"123","target":"25"},{"source":"123","target":"26"},{"source":"123","target":"27"},{"source":"123","target":"28"},{"source":"18","target":"124"},{"source":"19","target":"125"},{"source":"19","target":"126"},{"source":"19","target":"127"},{"source":"19","target":"128"},{"source":"128","target":"200"},{"source":"128","target":"201"},{"source":"128","target":"202"},{"source":"128","target":"203"},{"source":"128","target":"204"},{"source":"128","target":"205"},{"source":"19","target":"129"},{"source":"19","target":"130"},{"source":"19","target":"131"},{"source":"19","target":"132"},{"source":"132","target":"206"},{"source":"132","target":"207"},{"source":"132","target":"208"},{"source":"19","target":"133"},{"source":"19","target":"134"},{"source":"19","target":"135"},{"source":"19","target":"136"},{"source":"136","target":"209"},{"source":"136","target":"210"},{"source":"136","target":"211"},{"source":"136","target":"212"},{"source":"136","target":"213"},{"source":"136","target":"214"},{"source":"19","target":"137"},{"source":"19","target":"138"},{"source":"138","target":"215"},{"source":"138","target":"216"},{"source":"138","target":"217"},{"source":"138","target":"218"}]]
+        var usersArray = datasetTheme[0]; var linksArray = datasetTheme[1]
+
+        for(var i = 0;i <linksArray.length;i++){
+            linksArray[i].source = Number(linksArray[i].source);
+            linksArray[i].target = Number(linksArray[i].target);
+        }
+        console.log(usersArray);
+        console.log(linksArray);
+
+        var radius = 40;
+        var color = d3.scale.category20b();
+
+
+        var force = d3.layout.force()
+            .size([900, 900])
+            .linkDistance(175)
+            .linkStrength(0.8)
+            .charge(function(d) {return -d.dep * 20})
+            .friction(0.9)
+            .theta(0.8)
+            .gravity(0.1)
+            .on('tick', updatePositions)
+            .nodes(usersArray)
+            .links(linksArray);
+
+        force.start();
+        // force.stop();
+        console.log(force.linkStrength())
+
+        // calculate the radius for each user
+        var minRadius = d3.min(usersArray, function(d) {return Number(d.dep)});
+        var maxRadius = d3.max(usersArray, function(d) {return Number(d.dep)});
+        var radiusScale = d3.scale.linear()
+            .domain([minRadius, maxRadius])
+            .range([radius , radius/10]);
+
+        var link = svg.selectAll('path')
+            .data(linksArray)
+            .enter().append('path')
+            .attr('fill', 'none')
+            .attr('stroke', '#ffe700')
+            .attr('stroke-width', 2)
+            .attr('stroke-opacity', 0.25);
+
+        var circle = svg.selectAll('g')
+            .data(usersArray)
+            .enter().append('g')
+            .on('mouseenter', hoverNode)
+            .on('mouseleave', unhoverNode)
+            .call(force.drag);
+        console.log(circle);
+
+        circle.append('circle')
+            .attr('fill-opacity', 0.5)
+            .attr('fill', function (d,i) {
+                // console.log(d);
+                return color(i);
+            })
+            .attr('r', function(d) {
+                d.radius = radiusScale(Number(d.dep));
+                return d.radius;
+            });
+
+        circle
+            .append('text')
+            .attr('opacity', function(d) {return d.dep > radius / 10 ? 0 : 1})
+            .attr('text-anchor', 'middle')
+            .attr('fill','#fff')
+            .attr('font-size', function(d){return 16/d.dep;
+            })
+            .style('pointer-events', 'none')
+            .text(function(d) {return d.name});
+
+        function updatePositions() {
+            circle.attr('transform', function(d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+            link.attr('d', linkArc);
+        }
+
+        // link arc function from https://bl.ocks.org/mbostock/1153292
+        function linkArc(d) {
+            var dx = d.target.x - d.source.x,
+                dy = d.target.y - d.source.y,
+                dr = Math.sqrt(dx * dx + dy * dy);
+            return "M" + d.source.x + "," + d.source.y +
+                "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+        }
+
+        function hoverNode(d) {
+            var name = d.name;
+            var highlightedNodes = {};
+            // when they hover node, highlight the node
+            // and nodes it's attached to
+            link.attr('stroke-opacity', function(d) {
+                if (d.source.name === name ||
+                    d.target.name === name) {
+                    highlightedNodes[d.source.name] = 1;
+                    highlightedNodes[d.target.name] = 1;
+                    return .75;
+                }
+                return 0;
+            });
+
+
+            circle.selectAll('circle')
+                .attr('fill-opacity', function(d) {
+                    return highlightedNodes[d.name] ? .75 : 0;
+                });
+            circle.selectAll('text')
+                .attr('font-size',function (d) {
+                    return 14;
+                })
+                .attr('opacity', function(d) {
+                    return highlightedNodes[d.name] ? 1 : 0;
+                });
+        }
+
+        function unhoverNode() {
+            link.attr('stroke-opacity', 0.25);
+            circle.selectAll('circle')
+                .attr('fill-opacity', 0.5);
+            circle.selectAll('text')
+                .attr('opacity', function(d) {return d.dep > radius / 10? 0 : 1});
+        };
+
+</script>
+</body>

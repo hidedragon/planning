@@ -1,15 +1,22 @@
+<!--控制台界面-->
 <template>
   <div class="main">
     <div class="top">
       <div class="top-logo">
-        <img src="../assets/img/logo_2.png" width="88%" style="margin-top: 8px;margin-left: 8px;"/>
+        <img src="../assets/img/logo_2_new.png" width="88%" style="margin-top: 8px;margin-left: 8px;"/>
       </div>
       <div class="top-user">
-        <Icon type="ios-person-outline"  size="32" color="white"/>
-        <span style="margin-top: 10px;">欢迎您，系统管理员&emsp;</span>
-        <a href="#" @click="logout" style="color: #2d8cf0">注销</a>
+        <div style="display: inline-block;">
+          <Icon type="md-person"  size="22" color="white" style="margin-top: -5px;"/>
+        </div>
+        <div style="height: 22px;line-height: 22px;display: inline-block;padding-top: 5px;">
+          <span style="font-size: 15px;">欢迎您，</span>
+          <span style="font-size: 15px;font-weight: bold;">系统管理员&emsp;</span>
+          <a href="#" @click="logout" style="color: #2d8cf0;font-size: 15px;">注销</a>
+        </div>
       </div>
     </div>
+
     <div class="left">
       <Menu theme="dark" :active-name="appRouter[0].children[0].name" :open-names="[appRouter[0].name]" @on-select="goto">
         <Submenu v-for="item in appRouter" :name="item.name" :key="item.name">
@@ -17,6 +24,7 @@
             <Icon :type="item.icon" size="22"/>
             {{item.title}}
           </template>
+
           <MenuItem v-for="itemS in item.children" :name="itemS.name" :key="itemS.name" class="menu-item">
             <nuxt-link :to="itemS.path">
               <Icon :type="itemS.icon" size="22"/>
@@ -26,10 +34,13 @@
         </Submenu>
       </Menu>
     </div>
+
     <div class="right">
+
       <!--<div class="right-lable">-->
         <!--<span style="margin-left: 20px;">规划设计</span>-->
       <!--</div>-->
+
       <div class="right-main">
         <nuxt-child />
       </div>
@@ -50,7 +61,7 @@ import { appRouter } from './router'
 export default {
   head () {
     return {
-      title: '城乡规划智能决策支持系统'
+      title: '城市情景决策支持系统'
     }
   },
   data () {

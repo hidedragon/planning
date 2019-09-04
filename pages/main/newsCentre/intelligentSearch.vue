@@ -1,6 +1,6 @@
 <template>
   <div>
-    智能舆情搜索
+    智能信息搜索
   </div>
 </template>
 <script>

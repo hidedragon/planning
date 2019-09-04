@@ -1,6 +1,6 @@
 <template>
   <div>
-    智能推送配置
+    信息推送配置
   </div>
 </template>
 <script>

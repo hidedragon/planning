@@ -1,28 +1,24 @@
 <template>
   <div>
-    <Row :gutter="10">
-      <Col span="24">
-        <Card style="background-color: #061630;border: cornflowerblue">
-          <p slot="title" style="color: white;">
-            <Icon type="pinpoint"></Icon>
-            {{title}}
-          </p>
-          <Row>
-            <Input v-model="searchConName" icon="search" @on-change="handleSearch" placeholder="请输入关键字搜索..."
-                   style="width: 300px"/>
-          </Row>
-          <Row style="margin-top: 10px;">
-            <i-button type="primary" size="small" :key="item.title"
-                      v-for="item in buttons" @click="item.onClick">
-              {{item.title}}
-            </i-button>
-          </Row>
-          <Row style="margin-top: 10px;">
-            <Table :columns="tableColumns" :data="datas" border></Table>
-          </Row>
-        </Card>
-      </Col>
-    </Row>
+      <Card style="background-color: #363e50;border: cornflowerblue">
+        <p slot="title" style="color: white;">
+          <Icon type="pinpoint"></Icon>
+          {{title}}
+        </p>
+        <Row>
+          <Input v-model="searchConName" icon="search" @on-change="handleSearch" placeholder="请输入关键字搜索..."
+                 style="width: 300px"/>
+        </Row>
+        <Row style="margin-top: 10px;">
+          <i-button type="primary" size="small" :key="item.title" style="margin-right: 20px;"
+                    v-for="item in buttons" @click="item.onClick">
+            {{item.title}}
+          </i-button>
+        </Row>
+        <Row style="margin-top: 10px;">
+          <Table :columns="tableColumns" :data="datas" border></Table>
+        </Row>
+      </Card>
   </div>
 </template>
 <script>

@@ -3,18 +3,18 @@ export const appRouter = [
   {
     path: '/main/planningManage',
     icon: 'ios-albums-outline',
-    title: '规划管理',
+    title: '决策管理',
     name: 'planningManage',
     children: [
       {
         path: '/main/planningManage/requirementCommit',
-        title: '规划任务管理',
+        title: '决策任务管理',
         name: 'planningManage-requirementCommit',
         icon: 'ios-add-circle-outline'
       },
       {
         path: '/main/planningManage/planningApprove',
-        title: '规划任务审批',
+        title: '决策任务审批',
         name: 'planningManage-planningApprove',
         icon: 'ios-people-outline'
       }
@@ -43,33 +43,61 @@ export const appRouter = [
   {
     path: '/publicSentimentCentre',
     icon: 'ios-planet-outline',
-    title: '舆情中心',
+    title: '信息中心',
     name: 'newsCentre',
     children: [
       {
         path: '/main/newsCentre/intelligentPush',
-        title: '智能舆情推送',
+        title: '智能信息推送',
         name: 'newsCentre-intelligentPush',
         icon: 'ios-cloud-download-outline'
       },
       {
         path: '/main/newCentre/intelligentSearch',
-        title: '智能舆情搜索',
+        title: '智能信息搜索',
         name: 'newCentre-intelligentSearch',
         icon: 'ios-color-wand-outline'
       },
       {
         path: '/main/newCentre/dynamicCentre',
-        title: '舆情动态中心',
+        title: '信息动态中心',
         name: 'newCentre-dynamicCentre',
         icon: 'md-globe'
       },
       {
         path: '/main/newCentre/pushConfig',
-        title: '舆情推送设置',
+        title: '信息推送设置',
         name: 'newCentre-pushConfig',
         icon: 'ios-settings'
       }
     ]
+  },
+  {
+    path: '/expertCentre',
+    icon: 'ios-people-outline',
+    title: '专家库',
+    name: 'expertCentre',
+    children: [
+      {
+        path: '/main/expertCentre/expertInformation',
+        title: '专家信息',
+        name: 'expertCentre-expertInformation',
+        icon: 'ios-person-outline'
+      }
+    ]
+  },
+  {
+      path: '/caseCentre',
+      icon: 'ios-cube-outline',
+      title: '案例库',
+      name: 'caseCentre',
+      children: [
+          {
+              path: '/main/caseCentre/caseDatabase',
+              title: '案例库',
+              name: 'caseCentre-caseDatabase',
+              icon: 'ios-cube-outline'
+          }
+      ]
   }
 ]

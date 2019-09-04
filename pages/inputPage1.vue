@@ -1,15 +1,15 @@
 <template>
   <div>
-    <input-analysis-page></input-analysis-page>
+    <input-analysis-page1></input-analysis-page1>
   </div>
 </template>
 <script>
-import inputAnalysisPage from '~/components/analysis/inputAnalysisPage'
+import inputAnalysisPage1 from '~/components/analysis/inputAnalysisPage1'
 
 export default {
   name: 'input-page-1',
   components: {
-    inputAnalysisPage
+    inputAnalysisPage1
   }
 }
 </script>

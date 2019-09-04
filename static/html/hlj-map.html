@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+  <!--<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>-->
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+</head>
+<body style="height: 100%; margin: 0">
+<div id="container" style="height: 100%"></div>
+<script type="text/javascript">
+  var dom = document.getElementById("container");
+  var myChart = echarts.init(dom);
+  var app = {};
+  option = null;
+  var data = [{name: '哈尔滨双城经济开发区', value: 23},
+    {name: '哈尔滨松北经济开发区', value: 56},
+    {name: '黑龙江阿城经济开发区', value: 67},
+    {name: '哈尔滨利民经济开发区', value: 70},
+    {name: '哈尔滨经济开发区', value: 84},
+    {name: '黑龙江宾西经济开发区', value: 37},
+    {name: '黑龙江尚志经济开发区', value: 40},
+    {name: '黑龙江肇东经济开发区', value: 7},
+    {name: '哈尔滨科技创新城', value: 88},
+    {name: '哈南工业新城南岗工业园区', value: 17},
+    {name: '哈尔滨平房汽车零部件产业园区', value: 81},
+    {name: '五常牛家工业园区', value: 26},
+    {name: '阿城新华新区', value: 26},
+    {name: '黑龙江依兰经济开发区', value: 51},
+    {name: '黑龙江方正经济开发区', value: 34},
+    {name: '黑龙江九三经济开发区（绥化）', value: 59},
+    {name: '松原经济技术开发区（松原）', value: 32},
+    {name: '查干湖旅游经济开发区（松原）', value: 33},
+    {name: '绥化经济技术开发区（绥化）', value: 11},
+    {name: '黑龙江兰西经济开发区（绥化）', value: 1},
+    {name: '黑龙江富拉尔基经济开发区(齐齐哈尔）', value: 40},
+    {name: '黑龙江逊克经济开发区（黑河市）', value: 45},
+    {name: '大庆经济开发区', value: 48},
+    {name: '黑龙江宝泉岭经济开发区（鹤岗市）', value: 21},
+    {name: '黑龙江佳木斯经济开发区', value: 78},
+    {name: '黑龙江同江经济开发区（佳木斯）', value: 72},
+    {name: '黑龙江建三江经济开发区（佳木斯）', value: 56},
+    {name: '黑龙江七台河经济开发区（七台河市）', value: 68},
+    {name: '黑龙江密山经济开发区', value: 14},
+    {name: '黑龙江鸡西完达山经济开发区（鸡西）', value: 61},
+    {name: '黑龙江穆棱经济开发区', value: 45},
+    {name: '黑龙江林口经济开发区（牡丹江市）', value: 86},
+    {name: '黑龙江东宁经济开发区(牡丹江市)', value: 63},
+    {name: '黑龙江阳明经济开发区(牡丹江市）', value: 2},
+    {name: '长春朝阳经济开发区', value: 2},
+    {name: '长春绿园经济开发区', value: 93},
+    {name: '长春双阳经济开发区', value: 76},
+    {name: '长春九台经济开发区', value: 4},
+    {name: '吉林德惠经济开发区', value: 47},
+    {name: '长春农安经济开发区', value: 36},
+    {name: '长春宽城经济开发区', value: 36},
+    {name: '长春五棵树经济开发区', value: 10},
+    {name: '吉林船营经济开发区', value: 20},
+    {name: '吉林丰满经济开发区', value: 36},
+    {name: '吉林龙潭经济开发区', value: 73}];
+
+  var geoCoordMap = {
+    '哈尔滨双城经济开发区': [126.524283, 45.522167],
+    '哈尔滨松北经济开发区': [126.614233, 45.849453],
+    '黑龙江阿城经济开发区': [126.952541, 45.561811],
+    '哈尔滨利民经济开发区': [126.573542, 45.899816],
+    '哈尔滨经济开发区': [126.694683, 45.755321],
+    '黑龙江宾西经济开发区': [127.17354, 45.77746],
+    '黑龙江尚志经济开发区': [127.996688, 45.217103],
+    '黑龙江肇东经济开发区': [125.818964, 46.03352],
+    '哈尔滨科技创新城': [126.517338, 45.808232],
+    '哈南工业新城南岗工业园区': [126.64379, 45.603605],
+    '哈尔滨平房汽车零部件产业园区': [126.64417, 45.603787],
+    '五常牛家工业园区': [126.763456, 45.371485],
+    '阿城新华新区': [126.840175, 45.624575],
+    '黑龙江依兰经济开发区': [129.565932, 46.328605],
+    '黑龙江方正经济开发区': [128.856775, 45.827429],
+    '黑龙江九三经济开发区（绥化）': [126.9753, 46.643322],
+    '松原经济技术开发区（松原）': [124.812069, 45.149726],
+    '查干湖旅游经济开发区（松原）': [124.848972, 45.119965],
+    '绥化经济技术开发区（绥化）': [126.989304, 46.621011],
+    '黑龙江兰西经济开发区（绥化）': [126.268227, 46.235117],
+    '黑龙江富拉尔基经济开发区(齐齐哈尔）': [123.680689, 47.246149],
+    '黑龙江逊克经济开发区（黑河市）': [128.478976, 49.586057],
+    '大庆经济开发区': [124.858027, 46.682187],
+    '黑龙江宝泉岭经济开发区（鹤岗市）': [130.544223, 47.438792],
+    '黑龙江佳木斯经济开发区': [130.242908, 46.805772],
+    '黑龙江同江经济开发区（佳木斯）': [132.51624, 47.648638],
+    '黑龙江建三江经济开发区（佳木斯）': [132.643504, 47.259048],
+    '黑龙江七台河经济开发区（七台河市）': [131.048945, 45.783951],
+    '黑龙江密山经济开发区': [131.806152, 45.515637],
+    '黑龙江鸡西完达山经济开发区（鸡西）': [131.880749, 45.547805],
+    '黑龙江穆棱经济开发区': [130.468902, 44.690935],
+    '黑龙江林口经济开发区（牡丹江市）': [129.384281, 44.595911],
+    '黑龙江东宁经济开发区(牡丹江市)': [129.586988, 44.519454],
+    '黑龙江阳明经济开发区(牡丹江市）': [129.638599, 44.559084],
+    '长春朝阳经济开发区': [125.211027, 43.802701],
+    '长春绿园经济开发区': [125.185986, 43.945749],
+    '长春双阳经济开发区': [125.594705, 43.583661],
+    '长春九台经济开发区': [125.569295, 44.027789],
+    '吉林德惠经济开发区': [125.723574, 44.524951],
+    '长春农安经济开发区': [125.187718, 44.066241],
+    '长春宽城经济开发区': [125.277012, 44.012129],
+    '长春五棵树经济开发区': [126.142306, 44.807579],
+    '吉林船营经济开发区': [126.518124, 43.876136],
+    '吉林丰满经济开发区': [126.558043, 43.798813],
+    '吉林龙潭经济开发区': [126.557336, 43.908341]
+  };
+
+  var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+      var geoCoord = geoCoordMap[data[i].name];
+      if (geoCoord) {
+        res.push({
+          name: data[i].name,
+          value: geoCoord.concat(data[i].value)
+        });
+      }
+    }
+    return res;
+  };
+
+  option = {
+    title: {
+      text: '双城经济开发区周边开发区分布图',
+      subtext: '',
+      sublink: '',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    bmap: {
+      center: [127.996688, 45.217103],
+      zoom: 6,
+      roam: true,
+      mapStyle: {
+        styleJson: [{
+          'featureType': 'water',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#d1d1d1'
+          }
+        }, {
+          'featureType': 'land',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#f3f3f3'
+          }
+        }, {
+          'featureType': 'railway',
+          'elementType': 'all',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'highway',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#fdfdfd'
+          }
+        }, {
+          'featureType': 'highway',
+          'elementType': 'labels',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'arterial',
+          'elementType': 'geometry',
+          'stylers': {
+            'color': '#fefefe'
+          }
+        }, {
+          'featureType': 'arterial',
+          'elementType': 'geometry.fill',
+          'stylers': {
+            'color': '#fefefe'
+          }
+        }, {
+          'featureType': 'poi',
+          'elementType': 'all',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'green',
+          'elementType': 'all',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'subway',
+          'elementType': 'all',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'manmade',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#d1d1d1'
+          }
+        }, {
+          'featureType': 'local',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#d1d1d1'
+          }
+        }, {
+          'featureType': 'arterial',
+          'elementType': 'labels',
+          'stylers': {
+            'visibility': 'off'
+          }
+        }, {
+          'featureType': 'boundary',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#fefefe'
+          }
+        }, {
+          'featureType': 'building',
+          'elementType': 'all',
+          'stylers': {
+            'color': '#d1d1d1'
+          }
+        }, {
+          'featureType': 'label',
+          'elementType': 'labels.text.fill',
+          'stylers': {
+            'color': '#999999'
+          }
+        }]
+      }
+    },
+    series: [
+      {
+        name: '指数',
+        type: 'scatter',
+        coordinateSystem: 'bmap',
+        data: convertData(data),
+        symbolSize: function (val) {
+          return val[2] / 3;
+        },
+        label: {
+          normal: {
+            formatter: '{b}',
+            position: 'right',
+            show: false
+          },
+          emphasis: {
+            show: true
+          }
+        },
+        itemStyle: {
+          normal: {
+            color: 'purple'
+          }
+        }
+      },
+      {
+        name: 'Top 5',
+        type: 'effectScatter',
+        coordinateSystem: 'bmap',
+        data: convertData(data.sort(function (a, b) {
+          return b.value - a.value;
+        }).slice(0, 6)),
+        symbolSize: function (val) {
+          return val[2] / 3;
+        },
+        showEffectOn: 'render',
+        rippleEffect: {
+          brushType: 'stroke'
+        },
+        hoverAnimation: true,
+        label: {
+          normal: {
+            formatter: '{b}',
+            position: 'right',
+            show: true
+          }
+        },
+        itemStyle: {
+          normal: {
+            color: 'purple',
+            shadowBlur: 10,
+            shadowColor: '#333'
+          }
+        },
+        zlevel: 1
+      }
+    ]
+  };
+  ;
+  if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+  }
+</script>
+</body>
+</html>

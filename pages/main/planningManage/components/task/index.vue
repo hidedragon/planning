@@ -1,6 +1,7 @@
+<!--新增任务界面 -->
 <template>
   <div>
-    <Modal :title="title" v-model="isShowV" :mask-closable="false" width="90%" height="98%" :styles="{top: '20px'}">
+    <Drawer :title="title" v-model="isShowV" :closable="false" width="80" @on-visible-change="visibleChanged">
       <h4 slot="header">{{title}}</h4>
       <div slot="close">
         <a @click="closed"><Icon type="ios-close" /></a>
@@ -9,16 +10,16 @@
         <Steps :current="taskInfoS.flowState" size="small" direction="vertical">
           <Step title="新建"></Step>
           <Step title="任务需求提交"></Step>
-          <Step title="需求智能解析"></Step>
+          <Step title="慧策"></Step>
           <Step title="需求确认"></Step>
-          <Step title="智能设计"></Step>
+          <Step title="情景设计"></Step>
           <Step title="设计结果提交"></Step>
           <Step title="专家审批"></Step>
           <Step title="生成报告"></Step>
           <Step title="完成"></Step>
         </Steps>
       </div>
-      <div style="width: calc(100% - 180px);display: inline-block;height: 600px;vertical-align: top;overflow: auto;">
+      <div style="width: calc(100% - 180px);display: inline-block;height: auto;vertical-align: top;overflow: auto;">
         <div style="margin-top: 0px;">
           <div style="width: 400px;display: inline-block;float: left;margin-bottom: 10px;">
             <span style="color: red;display:inline-block;width: 60px;text-align: right;">*名称：</span>
@@ -30,12 +31,13 @@
               <Option v-for="item in taskTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </div>
+
           <div style="padding-left: 5px;margin-bottom: 10px;">
-            <div style="display: inline-block;margin-left: 15px;">
-              <Button type="primary" @click="analysisInput" :disabled="disableAnalysisInputBtn">需求智能解析</Button>
+            <div style="display: inline-block;margin-left: 15px; font-weight: bold;">
+              <Button type="primary" @click="analysisInput" :disabled="disableAnalysisInputBtn">慧策</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
-              <Button type="success" @click="analysisOutput" :disabled="disableAnalysisOutputBtn">智能设计</Button>
+              <Button type="success" @click="analysisOutput" :disabled="disableAnalysisOutputBtn">情景设计</Button>
             </div>
             <div style="display: inline-block;margin-left: 15px;">
               <Button type="info" @click="generateReport" :disabled="disableGenerateReportBtn">生成报告</Button>
@@ -46,6 +48,7 @@
               </Button>
             </div>
           </div>
+
           <div v-if="taskInfoS.flowState<4 || !taskInfoS.flowState" style="padding-left: 20px;padding-right: 20px;">
             <div style="width: 50%;display: inline-block;">
               <Upload
@@ -70,6 +73,8 @@
               </div>
             </div>
           </div>
+
+
           <div v-else-if="taskInfoS.flowState===6" style="padding-left: 20px;padding-right: 20px;">
             <Card style="width:100%">
               <span style="display:inline-block;width: 120px;text-align: right;">专家评审意见：</span>
@@ -87,28 +92,47 @@
               </RadioGroup>
             </Card>
           </div>
-          <div style="padding-left:20px;height: auto;">
-            <Tabs :value="showResTab">
-              <TabPane name="a" label="需求智能解析结果" icon="ios-stats">
-                <Tabs size="small" v-show="showInputAnalysisRes">
-                  <TabPane label="黑龙江双城经济开发区产业发展研究">
-                    <div style="">
-                      <input-analysis-page></input-analysis-page>
-                    </div>
-                  </TabPane>
-                </Tabs>
+
+          <div style="padding-left:20px;height:auto;">
+            <Tabs :value="showResTab" :on-click="changeTo">
+              <TabPane name="a" label="主题解析" icon="ios-stats">
+                <span> 哈尔滨市双城区主题公园产业发展研究与乐高招商策划 </span>
+                <a href="/inputPage0" target="_blank">查看详情</a>
+                <div style="overflow: auto;height:800px;" >
+                  <input-analysis-page></input-analysis-page>
+                </div>
               </TabPane>
-              <TabPane name="b" label="智能设计结果" icon="ios-pulse">
-                <Tabs size="small" v-show="showOutputAnalysisRes">
-                  <TabPane label="黑龙江双城经济开发区产业发展研究">
-                    <div>
-                      <output-analysis-page></output-analysis-page>
-                    </div>
-                  </TabPane>
-                </Tabs>
+              <TabPane name="a1" label="关键因素识别" icon="ios-stats">
+                <span> 哈尔滨市双城区主题公园产业发展研究与乐高招商策划 </span>
+                <a href="/inputPage1" target="_blank">查看详情</a>
+                <div style="overflow: auto;height:800px;" >
+                  <input-analysis-page1></input-analysis-page1>
+                </div>
+              </TabPane>
+              <TabPane name="a2" label="驱动因子解析" icon="ios-stats">
+                <span> 哈尔滨市双城区主题公园产业发展研究与乐高招商策划 </span>
+                <a href="/inputPage2" target="_blank">查看详情</a>
+                <div style="overflow: auto;height:800px;" >
+                  <input-analysis-page2></input-analysis-page2>
+                </div>
+              </TabPane>
+              <TabPane name="a4" label="主轴逻辑计算" icon="ios-stats">
+                <span> 哈尔滨市双城区主题公园产业发展研究与乐高招商策划 </span>
+                <a href="/inputPage3" target="_blank">查看详情</a>
+                <div style="overflow: auto;height:800px;" >
+                  <input-analysis-page3></input-analysis-page3>
+                </div>
+              </TabPane>
+
+              <TabPane name="b" label="情景设计结果" icon="ios-pulse">
+                <span>哈尔滨市双城区主题公园产业发展研究与乐高招商策划</span>
+                <a href="/outputPage1" target="_blank">查看详情</a>
+                <div>
+                  <output-analysis-page1></output-analysis-page1>
+                </div>
               </TabPane>
               <TabPane name="c" label="设计报告" icon="ios-print">
-                <div  v-show="showGenerateReport">
+                <div  v-show=true>
                   <generate-report-page></generate-report-page>
                 </div>
               </TabPane>
@@ -137,13 +161,17 @@
           <Button style="" type="primary" @click="confirmInput">需求确认</Button>
         </template>
       </div>
-    </Modal>
+    </Drawer>
   </div>
 </template>
 <script>
   import axios from '~/plugins/axios'
   import inputAnalysisPage from '~/components/analysis/inputAnalysisPage'
+  import inputAnalysisPage1 from '~/components/analysis/inputAnalysisPage1'
+  import inputAnalysisPage2 from '~/components/analysis/inputAnalysisPage2'
+  import inputAnalysisPage3 from '~/components/analysis/inputAnalysisPage3'
   import outputAnalysisPage from '~/components/analysis/outputAnalysisPage'
+  import outputAnalysisPage1 from '~/components/analysis/outputAnalysisPage1'
   import generateReportPage from '~/components/analysis/generateReportPage'
   import _ from 'lodash'
 
@@ -151,8 +179,12 @@
     name: 'task-modal',
     components: {
       inputAnalysisPage,
+      inputAnalysisPage1,
+      inputAnalysisPage2,
+      inputAnalysisPage3,
       outputAnalysisPage,
-      generateReportPage
+      outputAnalysisPage1,
+      generateReportPage,
     },
     props: {
       title: {
@@ -240,16 +272,28 @@
         taskTypes: [
           {
             value: '1',
-            label: '防洪排涝规划'
+            label: '空间规划'
           },
           {
             value: '2',
-            label: '产业发展研究'
+            label: '产业规划'
           },
           {
             value: '3',
-            label: '交通可达性论证'
-          }
+            label: '经济社会发展战略规划'
+          },
+          {
+              value: '4',
+              label: '可行性研究'
+          },
+          {
+              value: '5',
+              label: '旅游策划'
+          },
+            {
+                value: '6',
+                label: '招商策划'
+            },
         ]
       }
     },
@@ -257,8 +301,8 @@
       uploadFileSuccess: async function (response, file, fileList) {
         console.log('上传文件成功')
         //根据文件名生成name、type
-        this.taskInfoS.name = '黑龙江双城经济开发区产业发展研究'
-        this.taskInfoS.type = '2'
+        this.taskInfoS.name = '黑龙江省哈尔滨市主题公园产业发展研究与乐高招商策划'
+        this.taskInfoS.type = '6'
         this.uploadFileList.push(file)
         this.taskInfoS.uploadFiles = this.uploadFileList
         this.taskInfoS.flowState = 1
@@ -314,10 +358,10 @@
                 'class': 'demo-spin-icon-load',
                 props: {
                   type: 'ios-loading',
-                  size: 18
+                  size:60,
                 }
               }),
-              h('div', '智能解析中')
+              h('div', '慧策')
             ])
           }
         });
@@ -325,7 +369,7 @@
           this.$Spin.hide()
           this.showInputAnalysisRes = true
           this.taskInfoS.flowState = 3
-        }, 3000);
+        }, 5000);
       },
       showBtn (btnTag) {
         let user = this.$store.state.user
@@ -376,7 +420,7 @@
                   size: 18
                 }
               }),
-              h('div', '智能设计中')
+              h('div', '情景设计中')
             ])
           }
         });
@@ -408,6 +452,16 @@
           this.showResTab = 'c'
           this.showGenerateReport = true
         }, 3000);
+      },
+      changeTo (tab) {
+        console.log(tab)
+        this.showResTab = tab
+      },
+      visibleChanged (newVal) {
+        console.log(newVal)
+        if(!newVal){
+          this.$emit('closed')
+        }
       }
     },
     mounted () {

@@ -245,7 +245,7 @@
 
         var option = {
           title: {
-            text: '社会活动热点图',
+            text: '全国企业分布热点图',
             subtext: 'ThinkGIS',
             sublink: 'http://www.dashuntech.com:8808',
             left: 'center',

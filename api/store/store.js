@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 //aliyun mysql: 47.100.12.72
 
 const mysqlDb = new Sequelize("sohi", "root", "123456", {
-  host: "127.0.0.1",
+  host: "47.100.12.72",
   port: "3306",
   dialect: "mysql",
   pool: {

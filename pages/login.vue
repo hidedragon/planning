@@ -1,7 +1,15 @@
+<!--登陆界面-->
 <template>
   <div class="login-main">
+    <div style="position: absolute;left: 0;right: 0;margin: auto;">
+      <video width="100%" autoplay="autoplay" muted loop>
+        <source src="../assets/media/backgroud.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="login-inputs">
-      <img src="../assets/img/logo_1.png" style="margin-top: 3%;"/>
+      <div style="margin-top: 5%;height: 150px;">
+        <img src="../assets/img/logo_1_new.png" style=""/>
+      </div>
       <div class="account-input">
         <input v-model="account"/>
       </div>

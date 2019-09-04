@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<head style="height: 100%">
+    <title>关键决策元素界面</title>
+    <meta charset='utf-8' >
+    <script src="d3_v4/d3.js"></script>
+    <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+    <!--<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">-->
+<style>
+    body {
+        background: radial-gradient(720px at 860px, #081f2b 0%, #061616 100%);
+    }
+    .glow { /* This trick adds a heavy white shadow around the text. */
+        text-shadow:
+                -1px -1px 3px black,
+                -1px  1px 3px black,
+                1px -1px 3px black,
+                1px  1px 3px black;
+    }
+
+    .text01 {
+        font-family: "Open Sans", sans-serif;
+        pointer-events: none;
+        alignment-baseline: central;
+        fill: white;
+    }
+
+    .path01 {
+        fill: none;
+        stroke: white;  /* #4fb9b5; */
+    }
+    .panel{
+        width: 1024px;
+        height:960px;
+        overflow: auto;
+    }
+    #cluster{
+        width: 100%;
+        height: 100%;
+        margin-left: 100px;
+        /*position: absolute;*/
+        /*left: 50px;*/
+        background-image: url("key.png");
+        background-repeat: no-repeat;
+    }
+    #chord{
+        width: 100%;
+        height: 100%;
+        /*background-color: red;*/
+        /*border:2px solid #1cb7fd;*/
+        /*position: absolute;*/
+        /*right: 50px;*/
+        top: 0;
+    }
+    /*.chord {*/
+        /*fill-opacity: .67;*/
+    /*}*/
+
+    #chord svg text{
+        text-anchor:middle;
+        font-size:18px;
+    }
+    #chord svg .values text{
+        /*pointer-events:none;*/
+        stroke-width: 0.5px;
+    }
+
+    .groups:hover{
+        cursor:pointer;
+        font-weight:bold;
+    }
+
+</style>
+</head>
+<body>
+<div class="panel">
+    <div id="cluster">
+        <svg>
+            <g></g>
+        </svg>
+    </div>
+
+    <div id="chord" >
+
+    </div>
+</div>
+
+<script>
+    cluster();
+    function cluster(){
+        var vWidth = 1024;
+        var vHeight = 960;
+    //     var vFontSize = [10,10,14,18];
+    //     var vColor = d3.scaleOrdinal().domain(["Oceania", "Africa", "Europe", "Latin America", "Asia"])
+    //         .range(["#ff79e8", "#fff478", "#ffff66", "#aeff82", "#6698ff"]);
+    //
+    //     //        .range(["#fb5454", "#f1fb54", "#54befb"]);
+    //
+    //
+    //     // Prepare our physical space
+        var g = d3.select('#cluster').select('svg').attr('width', vWidth).attr('height', vHeight)
+            .select('g').attr('transform', 'translate(' + vWidth/2 + ',' + vHeight/2 + ')');
+    //
+    //     // Get the data from our CSV file
+    //
+    //     d3.csv('keyElement.csv', function(error, vCsvData) {
+    //         if (error) throw error;
+    //
+    //         // console.log(vCsvData);
+    //
+    //         vData = d3.stratify()(vCsvData);
+    //         console.log(vData);
+    //         drawViz(vData);
+    //         // console.log(vData);
+    //     });
+    //
+    //     function drawViz(vData) {
+    //
+    //         vData.each( function(d){
+    //             switch (d.depth) {
+    //                 case 1: d.data.leg = d.id; break;
+    //                 case 2: d.data.leg = d.parent.id; break;
+    //                 case 3: d.data.leg = d.parent.parent.id; break;
+    //             }});
+    //
+    //         // console.log(vData);
+    //
+    //
+    //         // Declare d3 layout
+    //         var vLayout = d3.cluster().size([2 * Math.PI, Math.min(vWidth, vHeight)/2 - 130]); // margin!
+    //
+    //         // Layout + Data
+    //         var vRoot = d3.hierarchy(vData);
+    //         var vNodes = vRoot.descendants();
+    //         var vLinks = vLayout(vRoot).links();
+    //
+    //         // Draw on screen
+    //         g.selectAll('path')
+    //             .data(vLinks)
+    //             .enter()
+    //             .append('path')
+    //             .attr('class','path01')
+    //             .attr('d', d3.linkRadial()
+    //                 .angle(function (d) { return d.x; })
+    //                 .radius(function (d) { return d.y; }));
+    //
+    //         var node = g.selectAll(".node")
+    //             .data(vNodes)
+    //             .enter()
+    //             .append('g')
+    //             .attr('transform', function(d) { return "translate(" + d3.pointRadial(d.x, d.y) + ")"; });
+    //
+    //         node.append("text")
+    //             .text(function (d){ return d.data.data.id; })
+    //             .attr('class','text01')
+    //             .attr("font-size", function (d){ return vFontSize[d.height] + "pt"; })
+    //             .attr("transform", function(d) { return "rotate(" + textRotation(d) + ")" })
+    //             .attr("text-anchor", function (d){
+    //                 if(d.height === 0){ return (d.x > Math.PI) ? "end" : "start"; }
+    //                 else { return "middle"; } })
+    //             .attr("dx", function (d){
+    //                 if(d.depth === 3){ return (d.x > Math.PI) ? "-2px" : "2px"; }
+    //                 else { return "0px"; } })
+    //             .attr("dy",function(d){
+    //                 if(d.depth == 0 ){
+    //                     return '6px';
+    //                 }else if(d.depth == 1){return '-8px'}
+    //             })
+    //             .style("fill", function(d){
+    //
+    //                 //if(d.data.data.least_devd_country === "Yes") { return "blue";}
+    //                 //else if (d.data.data.devd_region === "Yes") { return "green";}
+    //
+    //                 return vColor(d.data.data.leg);
+    //             })
+    //             .classed("glow", function (d){ return d.height !== 0; });
+    //
+    //         function textRotation(d) {
+    //             var angle = d.x / Math.PI * 180 + 90;
+    //
+    //             if (d.depth < 2) { return 0;}
+    //             else if (angle <= 270) { return angle - 180;}
+    //             else { return angle;}
+    //         }
+    //     }
+    }
+    chord();
+    function chord() {
+        var data = [
+            ["园区配套","产业空间",343000]
+            ,["园区配套","产业定位",27000]
+            ,["园区配套","内部资源",3000]
+            ,["园区配套","外部环境",212000]
+            ,["产业空间","产业定位",9000]
+            ,["产业空间","内部资源",2000]
+            ,["产业空间","外部环境",86000]
+            ,["产业空间","园区配套",842000]
+            ,["外部环境","产业空间",607000]
+            ,["外部环境","产业定位",9000]
+            ,["外部环境","内部资源",5000]
+            ,["外部环境","园区配套",715000]
+            ,["产业定位","产业空间",711000]
+            ,["产业定位","内部资源",7000]
+            ,["产业定位","外部环境",183000]
+            ,["产业定位","园区配套",2104000]
+            ,["内部资源","产业空间",621000]
+            ,["内部资源","产业定位",9000]
+            ,["内部资源","外部环境",777000]
+            ,["内部资源","园区配套",1969000]
+        ];
+
+        var colors = {
+            "园区配套":"#ff79e8"
+            ,"产业空间":"#fff478"
+            ,"外部环境":"#ffff66"
+            ,"产业定位":"#aeff82"
+            ,"内部资源":"#6698ff"
+        };
+
+        var sortOrder =["外部环境","产业定位","园区配套","内部资源","产业空间"];
+
+        function sort(a,b){ console.log(a);
+            return d3.ascending(sortOrder.indexOf(a),sortOrder.indexOf(b)); }
+        function valueFormat(x){
+            console.log(x);
+            return (d3.format(",")(x/1000));}
+
+        // var chi = viz.ch().data(data).padding(.05)
+        //     .source(d=>d[1])
+        //     .target(d=>d[0])
+        //     .sort(sort)
+        //     .valueFormat(valueFormat)
+        //     .fill(function(d){ return colors[d];});
+
+        var che = viz.ch()
+            .data(data)
+            .padding(.05)
+            .outerRadius(300)
+            .innerRadius(290)
+            .sort(sort)
+            .valueFormat(valueFormat)
+            .fill(function(d){ return colors[d];});
+        console.log(data);
+
+
+
+        var width=1024, height=960;
+
+        var svg = d3.selectAll("#chord").append("svg")
+            .attr("height",height)
+            .attr("width",width);
+
+        svg.append("g")
+            .attr("transform", "translate(450,400)")
+            .attr('fill-opacity','0.8')
+            .call(che);
+        // svg.append("g").attr("transform", "translate(900,300)").call(chi);
+
+        // svg.append("text")
+        //     .attr("x",300)
+        //     .attr("y",50)
+        //     .attr('fill','#fff')
+        //     .text("产业规划")
+        //     .style("font-weight","bold")
+        // svg.append("text").attr("x",900).attr("y",50).text("Immigration").style("font-weight","bold")
+
+        // adjust height of frame in bl.ocks.org
+        d3.select(self.frameElement).style("height", height+"px").style("width", width+"px");
+        d3.selectAll(".label").attr("fill","#fff");
+
+    }
+</script>
+</body>
