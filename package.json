@@ -34,7 +34,7 @@
     "mysql2": "^1.6.1",
     "net": "^1.0.2",
     "nuxt": "^1.4.2",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.15.1",
     "source-map-support": "^0.4.15",
     "tls": "^0.0.1",
     "uuid": "^3.3.2"
