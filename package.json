@@ -25,7 +25,7 @@
     "cross-env": "^5.0.1",
     "echarts": "^4.1.0",
     "echarts-gl": "^1.1.1",
-    "express": "^4.15.3",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "iview": "^3.0.1",
     "jquery": "^3.3.1",
